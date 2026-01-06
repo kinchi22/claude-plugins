@@ -1,0 +1,16 @@
+{
+  "name": "kinchi22-claude-plugins",
+  "owner": {
+    "name": "Seulki Bae",
+    "email": "kinchi22@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "ly-workers-hub-atlassian",
+      "description": "Atlassian integration for Workers Hub with Jira and Confluence MCP servers and related skills.",
+      "version": "1.0.0",
+      "category": "work",
+      "tags": ["jira", "confluence", "atlassian", "mcp", "productivity"]
+    }
+  ]
+}

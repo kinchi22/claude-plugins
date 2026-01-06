@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    "confluence": {
+      "autoApprove": [],
+      "disabled": false,
+      "timeout": 300,
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "--registry",
+        "https://npm.linecorp.com",
+        "@linecorp/flava-mcp-connector@latest",
+        "https://confluence-noahs.kks.mcp.prd.flava.workers-infra.com/mcp"
+      ]
+    },
+    "jira": {
+      "autoApprove": [],
+      "disabled": false,
+      "timeout": 300,
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "--registry",
+        "https://npm.linecorp.com",
+        "@linecorp/flava-mcp-connector@latest",
+        "https://jira-noahs.kks.mcp.prd.flava.workers-infra.com/mcp"
+      ]
+    }
+  }
+}
