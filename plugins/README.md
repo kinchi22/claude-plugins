@@ -6,7 +6,6 @@ This directory contains all plugins in the kinchi22-claude-plugins marketplace.
 
 | Plugin | Category | Description |
 |--------|----------|-------------|
-| [ly-workers-hub-atlassian](ly-workers-hub-atlassian/) | work | Atlassian integration with Jira and Confluence MCP servers |
 | [clarify-first](clarify-first/) | productivity | Replaces plan mode by asking one focused question at a time until every ambiguity is resolved, then produces a spec |
 
 ## Installation
