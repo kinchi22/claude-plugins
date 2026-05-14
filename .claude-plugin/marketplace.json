@@ -7,6 +7,7 @@
   "plugins": [
     {
       "name": "clarify-first",
+      "source": "./plugins/clarify-first",
       "description": "A clarify-first skill that replaces plan mode by driving every ambiguity out of a request with one focused question at a time before producing a spec.",
       "version": "0.1.0",
       "category": "productivity",
