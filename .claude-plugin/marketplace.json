@@ -12,6 +12,14 @@
       "version": "0.1.0",
       "category": "productivity",
       "tags": ["planning", "requirements", "clarification", "skill", "spec"]
+    },
+    {
+      "name": "handoff",
+      "source": "./plugins/handoff",
+      "description": "Write or update a HANDOFF.md so the next agent with fresh context can continue this work. Sourced from ykdojo/claude-code-tips.",
+      "version": "0.1.0",
+      "category": "productivity",
+      "tags": ["handoff", "context", "continuation", "skill"]
     }
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "name": "handoff",
+  "description": "Write or update a HANDOFF.md so the next agent with fresh context can continue this work.",
+  "version": "0.1.0",
+  "category": "productivity",
+  "tags": ["handoff", "context", "continuation", "skill"],
+  "author": {
+    "name": "YK (ykdojo)",
+    "url": "https://github.com/ykdojo/claude-code-tips"
+  }
+}
