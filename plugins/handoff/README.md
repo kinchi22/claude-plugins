@@ -24,7 +24,7 @@ Then you start a new conversation with just that file path as context.
 
 ```bash
 # Add the marketplace (if not already added)
-/plugin marketplace add github:kinchi22/claude-plugins
+/plugin marketplace add kinchi22/claude-plugins
 
 # Install
 /plugin install handoff@kinchi22-claude-plugins

@@ -29,7 +29,7 @@ It deliberately skips trivial work — typo fixes, fully-specified single-file r
 
 ```bash
 # Add the marketplace (if not already added)
-/plugin marketplace add github:kinchi22/claude-plugins
+/plugin marketplace add kinchi22/claude-plugins
 
 # Install
 /plugin install clarify-first@kinchi22-claude-plugins

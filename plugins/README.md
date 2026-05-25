@@ -7,12 +7,13 @@ This directory contains all plugins in the kinchi22-claude-plugins marketplace.
 | Plugin | Category | Description |
 |--------|----------|-------------|
 | [clarify-first](clarify-first/) | productivity | Replaces plan mode by asking one focused question at a time until every ambiguity is resolved, then produces a spec |
+| [handoff](handoff/) | productivity | Writes a HANDOFF.md so the next agent with fresh context can continue this work (mirrored from ykdojo/claude-code-tips) |
 
 ## Installation
 
 ```bash
 # Add the marketplace
-/plugin marketplace add github:kinchi22/claude-plugins
+/plugin marketplace add kinchi22/claude-plugins
 
 # Install a specific plugin
 /plugin install <plugin-name>@kinchi22-claude-plugins
