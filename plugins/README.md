@@ -8,6 +8,7 @@ This directory contains all plugins in the kinchi22-claude-plugins marketplace.
 |--------|----------|-------------|
 | [clarify-first](clarify-first/) | productivity | Replaces plan mode by asking one focused question at a time until every ambiguity is resolved, then produces a spec |
 | [handoff](handoff/) | productivity | Writes a HANDOFF.md so the next agent with fresh context can continue this work (mirrored from ykdojo/claude-code-tips) |
+| [grill-me](grill-me/) | productivity | Interviews you relentlessly about a plan or design until shared understanding is reached (mirrored from mattpocock/skills, MIT) |
 
 ## Installation
 

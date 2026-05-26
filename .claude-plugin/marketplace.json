@@ -20,6 +20,14 @@
       "version": "0.1.0",
       "category": "productivity",
       "tags": ["handoff", "context", "continuation", "skill"]
+    },
+    {
+      "name": "grill-me",
+      "source": "./plugins/grill-me",
+      "description": "Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Sourced from mattpocock/skills (MIT).",
+      "version": "0.1.0",
+      "category": "productivity",
+      "tags": ["planning", "design", "interview", "skill"]
     }
   ]
 }
