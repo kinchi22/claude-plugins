@@ -1,0 +1,14 @@
+# <Project name>
+
+<!-- One or two lines on what this project is. -->
+
+## Agent harness
+
+This project uses an agent development harness. The rules below are loaded into every
+session. See `docs/glossary.md` for domain vocabulary and `docs/prd/` for milestone
+PRDs.
+
+<!-- harness-init:begin -->
+@.claude/rules/coding-guidelines.md
+@.claude/rules/dev-cycle.md
+<!-- harness-init:end -->

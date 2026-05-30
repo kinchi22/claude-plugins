@@ -1,0 +1,10 @@
+{
+  "name": "prd",
+  "description": "Write a milestone PRD by grilling the user one question at a time (the /grill-me concept, each with a recommended answer) through the decision tree — goal, user stories (As a <role>, I want <capability>, so that <benefit>), scope, glossary terms, slice boundaries, acceptance checks — then writing an ordered checklist of independently-shippable executable slices to docs/prd/<slug>.md. Step 2 of the harness dev cycle.",
+  "version": "0.1.0",
+  "category": "engineering",
+  "tags": ["prd", "planning", "slices", "user-stories", "milestone", "skill"],
+  "author": {
+    "name": "Seulki Bae"
+  }
+}

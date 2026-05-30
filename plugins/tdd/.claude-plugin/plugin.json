@@ -1,0 +1,11 @@
+{
+  "name": "tdd",
+  "description": "Test-driven development with the red-green-refactor loop, driven by vertical slices (tracer bullets) and tests that verify behavior through public interfaces. Sourced from mattpocock/skills (MIT).",
+  "version": "0.1.0",
+  "category": "engineering",
+  "tags": ["tdd", "testing", "red-green-refactor", "engineering", "skill"],
+  "author": {
+    "name": "Matt Pocock",
+    "url": "https://github.com/mattpocock/skills"
+  }
+}

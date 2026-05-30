@@ -36,6 +36,30 @@
       "version": "0.1.0",
       "category": "productivity",
       "tags": ["planning", "design", "interview", "documentation", "ddd", "skill"]
+    },
+    {
+      "name": "tdd",
+      "source": "./plugins/tdd",
+      "description": "Test-driven development with the red-green-refactor loop, driven by vertical slices (tracer bullets) and tests that verify behavior through public interfaces. Sourced from mattpocock/skills (MIT).",
+      "version": "0.1.0",
+      "category": "engineering",
+      "tags": ["tdd", "testing", "red-green-refactor", "engineering", "skill"]
+    },
+    {
+      "name": "prd",
+      "source": "./plugins/prd",
+      "description": "Write a milestone PRD by grilling the user one question at a time (the /grill-me concept) through the decision tree — goal, user stories, scope, glossary terms, slice boundaries, acceptance checks — then writing an ordered checklist of independently-shippable executable slices to docs/prd/<slug>.md. Step 2 of the harness dev cycle.",
+      "version": "0.1.0",
+      "category": "engineering",
+      "tags": ["prd", "planning", "slices", "user-stories", "milestone", "skill"]
+    },
+    {
+      "name": "harness-init",
+      "source": "./plugins/harness-init",
+      "description": "One-time, explicitly-invoked bootstrap that sets up or upgrades a project's agentic development harness: a thin CLAUDE.md that @imports coding guidelines, a PRD -> milestone-branch -> per-slice TDD -> review -> handoff dev cycle, an authoritative docs/glossary.md, and an ADR template (the PRD template is owned by the /prd skill). Idempotent.",
+      "version": "0.1.0",
+      "category": "engineering",
+      "tags": ["harness", "workflow", "claude-md", "tdd", "prd", "glossary", "bootstrap", "skill"]
     }
   ]
 }

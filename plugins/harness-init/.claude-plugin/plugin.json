@@ -1,0 +1,10 @@
+{
+  "name": "harness-init",
+  "description": "One-time, explicitly-invoked project bootstrap that sets up or upgrades an agentic development harness: a thin CLAUDE.md that @imports coding guidelines, a PRD -> milestone-branch -> per-slice TDD -> review -> handoff dev cycle, an authoritative docs/glossary.md, and an ADR template (the PRD template is owned by the /prd skill). Idempotent — detects and merges with existing files.",
+  "version": "0.1.0",
+  "category": "engineering",
+  "tags": ["harness", "workflow", "claude-md", "tdd", "prd", "glossary", "bootstrap", "skill"],
+  "author": {
+    "name": "Seulki Bae"
+  }
+}
