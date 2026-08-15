@@ -119,9 +119,10 @@ add JavaScript to make one work, because embedded viewers sandbox the page witho
 ### 6 — Write the report
 
 Copy `assets/report-template.html` and fill it in. The template is self-contained: tokens
-for light/dark, a theme toggle, card/table/snippet/diagram styles, and the small vanilla
-JS the stepper and tabs need. Do not add external scripts, fonts, or stylesheets — the
-report must render from a `file://` URL with the network off.
+for light/dark, card/table/snippet/diagram styles, and the indexed CSS rules that drive the
+steppers and tabs without a line of JavaScript. Its one script reveals the theme toggle and
+nothing else. Do not add external scripts, fonts, or stylesheets — the report must render
+from a `file://` URL with the network off.
 
 **Language:** write the prose in the language of the conversation that invoked the skill —
 but only the prose. **Technical vocabulary stays in English.** That obviously covers code
@@ -233,7 +234,20 @@ offer, don't publish unasked.
 
 ## Quality bar
 
-Before handing the report over, check it against these. Each one is a real failure mode:
+**Run the checker first** — it does the mechanical half in a second, from the repo the
+snippets quote:
+
+```bash
+python3 <skill>/scripts/check-report.py <report.html> --repo <repo-root>
+```
+
+Standard library only, exit 1 on any failure. It verifies that every quoted line appears
+verbatim in the file its `<summary>` names (indentation included), that `<`/`>`/`&` inside
+`<pre>` are escaped, that no external URL appears anywhere, that the steppers and tabs are
+radio-and-CSS rather than JavaScript, and that their radios, labels, and panels line up
+with unique names and ids. Fix what it reports and run it again until it passes.
+
+Then check the rest by hand — the checker cannot judge any of it:
 
 - [ ] The base is the **merge base**, and the header states the range it explains.
 - [ ] Every major change answers **why**, not just what. If a card has no "why", either the
@@ -242,21 +256,18 @@ Before handing the report over, check it against these. Each one is a real failu
 - [ ] Excluded files are **named**, with reasons.
 - [ ] Every diagram shows a mechanism; none is decorative.
 - [ ] Any interactive component covers genuinely procedural logic.
-- [ ] `<`, `>`, `&` inside every `<pre>` are escaped.
-- [ ] **Every snippet still matches the file it quotes**, character for character on the
-      lines it keeps — re-read them against the source after any document-wide edit.
-- [ ] Every `.stepper` has equal counts of rail labels and `.step`s; every `.ba` has equal
-      counts of rail labels and `.ba-panel`s; radios come first, `name` is unique per
-      component, and the first input carries `checked`.
+- [ ] Every snippet quotes code the prose actually discusses, and its size matches the
+      change's role — a core function whole, a supporting change trimmed.
 - [ ] **Interaction verified with JavaScript disabled** — a `javaScriptEnabled: false`
-      browser context, clicking a rail label and asserting the panel changed. Passing with
-      scripts on proves nothing about the viewer that broke first.
-- [ ] No external URL appears anywhere in the file — no CDN, font, or remote image.
+      browser context, clicking a rail label and asserting the panel changed. The checker
+      proves the markup is CSS-only; only this proves it works.
 - [ ] It reads in under five minutes.
 
 ## Reference files
 
-- `assets/report-template.html` — the document skeleton, all styles, all JS.
+- `scripts/check-report.py` — the static checker described under *Quality bar*. Standard
+  library only; run it before handing anything over.
+- `assets/report-template.html` — the document skeleton and all styles.
 - `references/diagrams.md` — inline-SVG recipes (pipeline, before/after, state, sequence)
   and the class vocabulary wired to the theme tokens.
 - `references/interactive.md` — stepper, before/after tabs, and snippet markup, with the

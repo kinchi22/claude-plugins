@@ -89,8 +89,26 @@ directory — not in your repo — and the skill prints the absolute path.
 explain-diff/
 └── skills/explain-diff/
     ├── SKILL.md                      # workflow and quality bar
-    ├── assets/report-template.html   # document skeleton: tokens, styles, stepper/tab JS
+    ├── scripts/check-report.py       # static checker (stdlib only)
+    ├── assets/report-template.html   # document skeleton: tokens, styles, CSS-only components
     └── references/
         ├── diagrams.md               # inline-SVG recipes + layout arithmetic
         └── interactive.md            # stepper, before/after tabs, snippet markup
 ```
+
+## Checking a report
+
+```bash
+python3 skills/explain-diff/scripts/check-report.py report.html --repo /path/to/repo
+```
+
+Exit 1 on any failure. It verifies that **every quoted line appears verbatim in the file
+its `<summary>` names**, indentation included — a doctored quotation looks exactly like a
+quotation, so nothing but a mechanical comparison catches one. It also checks escaping
+inside `<pre>`, that no external URL appears anywhere, that the interactive components are
+radio-and-CSS rather than JavaScript, and that their radios, labels, and panels line up
+with unique names and ids.
+
+What it cannot judge stays on the human checklist in `SKILL.md`: whether the base is right,
+whether each change answers *why*, whether a diagram shows a real mechanism — and whether
+the interaction actually works, which needs a browser with JavaScript disabled.
