@@ -1,6 +1,7 @@
 ---
 name: explain-diff
-description: Turn a git branch or pull request diff into a concise, prose HTML explainer — summary, major changes, minor changes, test cases — with hand-authored inline-SVG diagrams and interactive walkthroughs for procedural logic. EXPLICIT INVOCATION ONLY. Run this only when the user names it directly (e.g. "/explain-diff", "explain-diff on PR 42", "use the explain-diff skill on this branch"). Do NOT trigger it for ordinary requests to review, summarize, describe, or comment on a diff, branch, commit, or PR — those are not this skill.
+description: Turn a git branch or pull request diff into a concise, prose HTML explainer — summary, major changes, minor changes, test cases — with hand-authored inline-SVG diagrams and interactive walkthroughs for procedural logic.
+disable-model-invocation: true
 ---
 
 # Explain Diff
@@ -12,11 +13,9 @@ change is for, what actually changed and why, and what the tests pin down.
 This is not a diff viewer and not a code review. There are no findings, no severity
 ratings, no suggestions. The deliverable is *understanding*.
 
-## Invocation
+## Arguments
 
-Explicit only. The user typed `/explain-diff`, or named the skill. Never self-trigger.
-
-Arguments the skill accepts, in the order you should try to resolve them:
+Resolve them in this order:
 
 | Input | Meaning |
 |---|---|
@@ -113,8 +112,9 @@ See `references/diagrams.md` for the recipes and the layout arithmetic.
 
 **Where interaction earns its place.** A stepper only for procedural logic with three or
 more ordered steps where each step changes state; before/after tabs only when the two
-versions are best read whole. At most one or two per report. See
-`references/interactive.md`.
+versions are best read whole. At most one or two per report. They are **CSS-only** — never
+add JavaScript to make one work, because embedded viewers sandbox the page without
+`allow-scripts` and a JS-driven component is dead there. See `references/interactive.md`.
 
 ### 6 — Write the report
 
@@ -209,8 +209,12 @@ Before handing the report over, check it against these. Each one is a real failu
 - [ ] Every diagram shows a mechanism; none is decorative.
 - [ ] Any interactive component covers genuinely procedural logic.
 - [ ] `<`, `>`, `&` inside every `<pre>` are escaped.
-- [ ] Every `.stepper` has equal counts of rail buttons and `.step`s; every `.ba` has equal
-      counts of rail buttons and `.ba-panel`s.
+- [ ] Every `.stepper` has equal counts of rail labels and `.step`s; every `.ba` has equal
+      counts of rail labels and `.ba-panel`s; radios come first, `name` is unique per
+      component, and the first input carries `checked`.
+- [ ] **Interaction verified with JavaScript disabled** — a `javaScriptEnabled: false`
+      browser context, clicking a rail label and asserting the panel changed. Passing with
+      scripts on proves nothing about the viewer that broke first.
 - [ ] No external URL appears anywhere in the file — no CDN, font, or remote image.
 - [ ] It reads in under five minutes.
 

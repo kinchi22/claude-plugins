@@ -34,15 +34,18 @@ Plus, where they help understanding:
 - **Hand-authored inline SVG diagrams** — pipelines, before/after, state machines,
   sequences. Wired to CSS tokens, so they flip with light/dark mode.
 - **Interactive walkthroughs** — a stepper for procedural logic with three or more ordered
-  states, before/after tabs for rewritten algorithms. Vanilla JS, already in the template.
+  states, before/after tabs for rewritten algorithms. **CSS-only**, built on radio inputs
+  and `:checked` selectors, so they still work in viewers that sandbox the page without
+  `allow-scripts` — the Claude mobile app among them, where a JS-driven version is inert.
 
-The document is theme-aware (light/dark plus a manual toggle), responsive, and prints with
-every stepper step expanded.
+The document is theme-aware (light/dark, plus a manual toggle that reveals itself only
+where scripts run), responsive, and prints with every step expanded.
 
 ## Invocation
 
-**Explicit only.** The skill never self-triggers on an ordinary "review this PR" or
-"summarize this branch" — you have to name it.
+**Explicit only**, enforced by `disable-model-invocation: true` in the skill's frontmatter
+rather than by asking the model nicely. It never self-triggers on an ordinary "review this
+PR" or "summarize this branch" — you have to name it.
 
 ```
 /explain-diff                       # current branch vs. merge base with the default branch

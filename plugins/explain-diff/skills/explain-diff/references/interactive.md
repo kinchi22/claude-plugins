@@ -1,7 +1,14 @@
 # Interactive components
 
-The template already ships the CSS and the vanilla JS for these. You only emit the
-markup — no extra `<script>` block, no library.
+The template ships the CSS for these. You only emit the markup.
+
+**These components use no JavaScript, and you must not add any.** Embedded viewers — the
+Claude mobile app among them — render the page in a sandbox without `allow-scripts`. A
+JS-driven stepper looks perfect in your headless-browser check and is completely dead for
+the person reading it on their phone. Radio inputs plus `:checked` sibling selectors work
+in every sandbox, and the hidden-but-focusable radio group gives arrow-key navigation for
+free. The one script in the template drives the theme toggle and nothing else; the toggle
+hides itself when scripts are blocked so no dead button ships.
 
 ## When an interactive component earns its place
 
@@ -19,15 +26,17 @@ per document**, and only in the *major changes* section.
 
 ## Stepper
 
-Walks the reader through procedural logic one state at a time. Rail buttons jump; prev/next
-walks. Step 1 is shown on load, and print mode expands every step.
+Walks the reader through procedural logic one state at a time.
 
 ```html
 <div class="stepper">
-  <div class="stepper-rail" role="tablist">
-    <button type="button" role="tab">1. Acquire lock</button>
-    <button type="button" role="tab">2. Compare version</button>
-    <button type="button" role="tab">3. Commit or abort</button>
+  <input type="radio" name="st-lock" id="st-lock-1" checked>
+  <input type="radio" name="st-lock" id="st-lock-2">
+  <input type="radio" name="st-lock" id="st-lock-3">
+  <div class="stepper-rail">
+    <label for="st-lock-1">1. Acquire lock</label>
+    <label for="st-lock-2">2. Compare version</label>
+    <label for="st-lock-3">3. Commit or abort</label>
   </div>
   <div class="stepper-body">
     <div class="step">
@@ -50,20 +59,21 @@ walks. Step 1 is shown on load, and print mode expands every step.
          two concurrent writers can no longer both succeed.</p>
     </div>
   </div>
-  <div class="stepper-nav">
-    <button type="button" data-nav="prev">←</button>
-    <span class="stepper-count"></span>
-    <button type="button" data-nav="next">→</button>
-  </div>
+  <div class="stepper-hint">단계를 눌러 이동 · 화살표 키로도 넘길 수 있습니다</div>
 </div>
 ```
 
-Requirements the JS depends on:
+Structural rules the CSS depends on — break one and the component silently shows nothing:
 
-- `.stepper-rail button` count **must equal** `.step` count, in the same order.
-- `data-nav="prev"` / `data-nav="next"` are optional; include both or neither.
-- `.stepper-count` is filled in automatically — leave it empty.
-- Do not add `is-active` yourself; the script sets it on load.
+- **All `<input>`s come first**, before the rail and the body. The selectors are sibling
+  combinators; an input placed after a panel cannot reach it.
+- **`name` is unique per stepper**, shared by that stepper's radios. Two steppers sharing
+  a `name` become one radio group and fight each other.
+- **`id`/`for` pairs are unique in the document.** `st-<topic>-<n>` is a good scheme.
+- **`checked` on the first input.** Without it the stepper opens blank.
+- **Rail label count == step count**, in the same order. Max 6 steps.
+- The `.stepper-hint` line is optional but worth including — the rail is not obviously
+  clickable on a touch screen.
 
 Keep each step to 1–3 sentences. A step that needs a paragraph is a sign the split is
 wrong — regroup.
@@ -75,31 +85,36 @@ versions than as interleaved `+`/`−` lines.
 
 ```html
 <div class="ba">
-  <div class="ba-rail" role="tablist">
-    <button type="button" role="tab" aria-selected="true">Before</button>
-    <button type="button" role="tab" aria-selected="false">After</button>
+  <input type="radio" name="ba-retry" id="ba-retry-1" checked>
+  <input type="radio" name="ba-retry" id="ba-retry-2">
+  <div class="ba-rail">
+    <label for="ba-retry-1">Before</label>
+    <label for="ba-retry-2">After</label>
   </div>
-  <div class="ba-panel is-active">
-    <p>Retries were unbounded and immediate, so a failing dependency got hammered.</p>
-    <pre><code>for { if err := call(); err == nil { break } }</code></pre>
-  </div>
-  <div class="ba-panel">
-    <p>Retries are capped at five with exponential backoff and jitter.</p>
-    <pre><code>for i := 0; i &lt; maxRetries; i++ {
+  <div class="ba-body">
+    <div class="ba-panel">
+      <p>Retries were unbounded and immediate, so a failing dependency got hammered.</p>
+      <pre><code>for { if err := call(); err == nil { break } }</code></pre>
+    </div>
+    <div class="ba-panel">
+      <p>Retries are capped at five with exponential backoff and jitter.</p>
+      <pre><code>for i := 0; i &lt; maxRetries; i++ {
     if err := call(); err == nil { break }
     sleep(backoff(i))
 }</code></pre>
+    </div>
   </div>
 </div>
 ```
 
-Requirements: exactly as many `.ba-panel`s as rail buttons, in order; the first panel
-carries `is-active` and its button `aria-selected="true"`.
+Same rules as the stepper, plus: **panels live inside `.ba-body`** (the selectors count
+`nth-child` within it), and there are at most 3.
 
 ## Code snippets
 
-The default way to show code. Prose-first means the snippet is *evidence*, not the
-explanation — the reader must already understand the change from the paragraph above it.
+The default way to show code, and JS-free already — `<details>` is native HTML. Prose-first
+means the snippet is *evidence*, not the explanation: the reader must already understand
+the change from the paragraph above it.
 
 ```html
 <details class="snippet">
@@ -114,3 +129,16 @@ explanation — the reader must already understand the change from the paragraph
 - **Escape** `<`, `>`, `&` inside `<pre>`. This is the single most common way one of these
   reports comes out broken.
 - No syntax highlighting. It costs markup and adds nothing at this length.
+
+## Verifying it actually works
+
+A headless-browser check with scripts enabled proves nothing about the environment that
+broke first. Verify the way the reader will see it:
+
+```js
+// playwright
+const ctx = await browser.newContext({ javaScriptEnabled: false });
+```
+
+Load the report in that context, click a rail label, and assert the visible step changed.
+If it does, the component works in a sandboxed viewer too.
