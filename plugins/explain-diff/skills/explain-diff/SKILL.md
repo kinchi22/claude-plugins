@@ -123,8 +123,18 @@ for light/dark, a theme toggle, card/table/snippet/diagram styles, and the small
 JS the stepper and tabs need. Do not add external scripts, fonts, or stylesheets — the
 report must render from a `file://` URL with the network off.
 
-**Language:** write the prose in the language of the conversation that invoked the skill.
-Keep code identifiers, file paths, and API names in their original form.
+**Language:** write the prose in the language of the conversation that invoked the skill —
+but only the prose. **Technical vocabulary stays in English.** That obviously covers code
+identifiers, file paths, and API names; it equally covers the terms of art around them —
+*predicate, oracle, invariant, contract, idempotent, fuzz, offset, AST, chokepoint*.
+
+Translating a term of art hands the reader an unfamiliar word for a concept they already
+know: «도메인 술어» costs more to parse than "domain predicate", and a term you coin
+yourself while translating is worse still, because it names nothing they can look up. The
+test is whether a working engineer in that language would say the word out loud — they say
+"predicate" and "idempotent"; they do say 정규화 and 파싱. When the surrounding project has
+settled on a native-language word for something, follow the project. Otherwise leave the
+English alone.
 
 The four sections, and the standard each one has to meet:
 
