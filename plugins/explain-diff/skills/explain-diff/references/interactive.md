@@ -75,8 +75,14 @@ Structural rules the CSS depends on — break one and the component silently sho
 - The `.stepper-hint` line is optional but worth including — the rail is not obviously
   clickable on a touch screen.
 
-Keep each step to 1–3 sentences. A step that needs a paragraph is a sign the split is
-wrong — regroup.
+Keep each step's prose to 1–3 sentences. A step that needs a paragraph is a sign the split
+is wrong — regroup.
+
+**Each step should carry the code it describes**, in its own collapsed snippet. A stepper
+over procedural logic is precisely where a reviewer wants to check the implementation
+against the explanation, one state at a time, and a step that only asserts what the code
+does makes them go and find it. Splitting one function across two steps is fine and often
+right — quote the branch each step is about.
 
 ## Before / after tabs
 
@@ -123,7 +129,9 @@ the change from the paragraph above it.
 </details>
 ```
 
-- **≤ 12 lines.** Trim to the lines that carry the change plus one line of context.
+- **Size follows the role.** A function at the heart of the change goes in whole, up to
+  about 25 lines — a reviewer has to check the logic, not just read that it exists. A
+  supporting change gets the changed lines plus a line of context. Never a whole file.
 - `<summary>` is `path:lineRange` — nothing else.
 - Classes: `.d-add` (`+`), `.d-del` (`−`), `.d-ctx` (unchanged context).
 - **Escape** `<`, `>`, `&` inside `<pre>`. This is the single most common way one of these

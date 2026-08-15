@@ -148,8 +148,19 @@ No bullet lists here.
 One `.card` per change. Each card carries a title naming the *change* (not the file), the
 files it touches, and **1–3 short paragraphs of prose** answering: what changed, why, and
 what it means for the reader. Add a diagram or an interactive component only where step 5
-said it earns its place, and at most one collapsed `<details class="snippet">` of ≤ 12
-lines as evidence.
+said it earns its place.
+
+**Attach enough code that a reviewer could approve without opening the diff.** Prose alone
+describes the logic; a reviewer has to *check* it, and sending them back to GitHub for
+that defeats the document. So for the changes at the heart of the branch, quote the
+function whole — up to about 25 lines — rather than the two lines that changed, and when a
+stepper walks through procedural logic, **give every step the code it is describing**. The
+snippets are collapsed, so several of them cost the reader nothing until they want one.
+
+The limit is still real, just further out: never paste a whole file, never quote code the
+prose does not discuss, and keep supporting or incidental changes to one short excerpt or
+none. A card with six collapsed snippets covering six things the prose named is fine; a
+card with one 200-line dump is not.
 
 Write in the indicative, about the code: *"Reads now hit the cache first, and the DB is
 only the miss path."* Not *"This PR adds a cache."* — that's about the PR, not the system.
