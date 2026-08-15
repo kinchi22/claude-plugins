@@ -60,6 +60,14 @@
       "version": "0.1.0",
       "category": "engineering",
       "tags": ["harness", "workflow", "claude-md", "tdd", "prd", "glossary", "bootstrap", "skill"]
+    },
+    {
+      "name": "explain-diff",
+      "source": "./plugins/explain-diff",
+      "description": "Explicitly-invoked skill that turns a git branch or pull request diff into a concise, self-contained prose HTML explainer — summary, major changes, minor changes, test cases — with hand-authored inline-SVG diagrams and interactive walkthroughs for procedural logic.",
+      "version": "0.1.0",
+      "category": "engineering",
+      "tags": ["diff", "pull-request", "code-explanation", "html", "documentation", "svg", "skill"]
     }
   ]
 }
