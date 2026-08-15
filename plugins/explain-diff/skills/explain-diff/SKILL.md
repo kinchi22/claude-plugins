@@ -136,6 +136,19 @@ test is whether a working engineer in that language would say the word out loud 
 settled on a native-language word for something, follow the project. Otherwise leave the
 English alone.
 
+**Quoted code is verbatim, and every rule above stops at the `<pre>`.** A snippet is
+evidence: its value is that it shows what the file actually says, so the reader can check
+your prose against it. Rewriting anything inside it — a source comment translated,
+terminology "made consistent" with the surrounding narrative, whitespace tidied, an
+identifier renamed to match the text — destroys exactly that, and does it invisibly,
+because a doctored quote looks like a quote. Elision is the one edit allowed: cut lines
+out and mark the gap (`// …`), never alter a line you keep.
+
+This bites hardest on a sweeping edit late in the writing. If you find yourself running a
+find-and-replace over the whole document — a terminology pass, a rename, a tone fix —
+**exclude the code blocks from it and re-check them afterward**, because that is precisely
+the move that silently edits a quotation.
+
 The four sections, and the standard each one has to meet:
 
 #### Summary
@@ -230,6 +243,8 @@ Before handing the report over, check it against these. Each one is a real failu
 - [ ] Every diagram shows a mechanism; none is decorative.
 - [ ] Any interactive component covers genuinely procedural logic.
 - [ ] `<`, `>`, `&` inside every `<pre>` are escaped.
+- [ ] **Every snippet still matches the file it quotes**, character for character on the
+      lines it keeps — re-read them against the source after any document-wide edit.
 - [ ] Every `.stepper` has equal counts of rail labels and `.step`s; every `.ba` has equal
       counts of rail labels and `.ba-panel`s; radios come first, `name` is unique per
       component, and the first input carries `checked`.
