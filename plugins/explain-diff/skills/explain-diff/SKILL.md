@@ -59,6 +59,15 @@ git log --oneline --no-merges <base>..<head>
 
 The commit log matters: commit messages often carry the *why* that the diff itself cannot.
 
+**A detailed PR description is evidence, not a source.** A thorough author writes up the
+change better than you would — which makes translating their description into your report
+the single most tempting failure of this skill. The description tells you what the author
+*believes* and *intends*; it cannot tell you what the merged code does. Read it for the
+*why* and for the open questions the author flagged, then verify every factual claim
+against the diff. Independent reading is what earns the report its keep: it finds the
+things the description doesn't say — a new exported function with no production caller
+yet, a helper whose "single chokepoint" claim is or isn't true in the call graph.
+
 ### 3 — Triage the file list
 
 Split the changed files into three buckets and record the third one — it goes in the
@@ -146,13 +155,23 @@ test name, in code) · **verifies** (one plain-language clause describing the be
 pins down, not a restatement of the name) · **kind** (unit / integration / e2e / property /
 regression). Group by test file when there are more than about ten.
 
+**When the branch adds more than ~25 cases, change the unit of the row.** One row per
+`it` stops being a table and becomes a dump — a 126-case branch would blow the whole
+length budget on this section alone. Instead make each row a **contract block** (the
+`describe`, or a coherent group of cases), with a **count** column, and keep the file
+grouping as header rows. State the real totals in the intro sentence. Generated or
+parameterized cases (`it.each`, property/fuzz runs) are one row that names the generator
+and the size of the space it covers — never one row per generated case.
+
 Then one honest sentence about coverage — a behavior in the diff that no test touches is
 worth naming. If the branch adds **no** tests, keep the section, say so plainly in one
 sentence, and note which of the major changes are therefore unverified.
 
 #### Excluded
-The bucket from step 3, as one short paragraph or a compact list. Drop the section only if
-nothing was excluded.
+The bucket from step 3, as one short paragraph or a compact list. If nothing was excluded,
+keep the section and say so in one sentence — that a file which normally gets dropped was
+small enough to keep is itself worth a reader's second of attention, and a silent section
+is indistinguishable from a triage that never ran.
 
 ### 7 — Length discipline
 
