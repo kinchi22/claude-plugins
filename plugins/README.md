@@ -13,7 +13,7 @@ This directory contains all plugins in the kinchi22-claude-plugins marketplace.
 | [tdd](tdd/) | engineering | Test-driven development with the red-green-refactor loop, vertical slices, and behavior-focused tests (mirrored from mattpocock/skills, MIT) |
 | [prd](prd/) | engineering | Writes a milestone PRD: goal, user stories, and an ordered checklist of independently-shippable executable slices (each with an acceptance check); step 2 of the harness dev cycle |
 | [harness-init](harness-init/) | engineering | Sets up or upgrades an agentic dev harness: thin CLAUDE.md, PRD → milestone → per-slice TDD → review → handoff cycle, authoritative docs/glossary.md, ADR template |
-| [explain-diff](explain-diff/) | engineering | Explains a branch or PR diff as a concise prose HTML document — summary, major/minor changes, test cases — with inline-SVG diagrams and interactive walkthroughs (explicit invocation only) |
+| [explain-diff](explain-diff/) | engineering | Explains a branch or PR diff as a self-contained prose HTML document, with inline-SVG diagrams and a test-case table |
 
 ## Installation
 

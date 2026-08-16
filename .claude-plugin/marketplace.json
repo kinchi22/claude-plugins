@@ -64,7 +64,7 @@
     {
       "name": "explain-diff",
       "source": "./plugins/explain-diff",
-      "description": "Explicitly-invoked skill that turns a git branch or pull request diff into a concise, self-contained prose HTML explainer — summary, major changes, minor changes, test cases — with hand-authored inline-SVG diagrams and interactive walkthroughs for procedural logic.",
+      "description": "Explain a git branch or pull request diff as a self-contained prose HTML document, with inline-SVG diagrams and a test-case table.",
       "version": "0.1.0",
       "category": "engineering",
       "tags": ["diff", "pull-request", "code-explanation", "html", "documentation", "svg", "skill"]
