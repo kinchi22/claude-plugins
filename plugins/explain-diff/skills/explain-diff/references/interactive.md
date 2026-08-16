@@ -3,12 +3,11 @@
 The template ships the CSS for these. You only emit the markup.
 
 **These components use no JavaScript, and you must not add any.** Embedded viewers — the
-Claude mobile app among them — render the page in a sandbox without `allow-scripts`. A
-JS-driven stepper looks perfect in your headless-browser check and is completely dead for
-the person reading it on their phone. Radio inputs plus `:checked` sibling selectors work
-in every sandbox, and the hidden-but-focusable radio group gives arrow-key navigation for
-free. The one script in the template drives the theme toggle and nothing else; the toggle
-hides itself when scripts are blocked so no dead button ships.
+Claude mobile app among them — render the page in a sandbox without `allow-scripts`, where
+a JS-driven stepper that passed your headless-browser check is dead. Radio inputs plus
+`:checked` sibling selectors work in every sandbox, and the hidden-but-focusable radio
+group gives arrow-key navigation for free. The template's one script drives the theme
+toggle, which hides itself when scripts are blocked so no dead button ships.
 
 ## When an interactive component earns its place
 
@@ -78,11 +77,10 @@ Structural rules the CSS depends on — break one and the component silently sho
 Keep each step's prose to 1–3 sentences. A step that needs a paragraph is a sign the split
 is wrong — regroup.
 
-**Each step should carry the code it describes**, in its own collapsed snippet. A stepper
-over procedural logic is precisely where a reviewer wants to check the implementation
-against the explanation, one state at a time, and a step that only asserts what the code
-does makes them go and find it. Splitting one function across two steps is fine and often
-right — quote the branch each step is about.
+**Each step should carry the code it describes**, in its own collapsed snippet — a stepper
+is exactly where a reviewer wants to check the implementation one state at a time, and a
+step that only asserts what the code does sends them off to find it. Splitting one function
+across two steps is fine and often right; quote the branch each step is about.
 
 ## Before / after tabs
 

@@ -58,14 +58,11 @@ git log --oneline --no-merges <base>..<head>
 
 The commit log matters: commit messages often carry the *why* that the diff itself cannot.
 
-**A detailed PR description is evidence, not a source.** A thorough author writes up the
-change better than you would — which makes translating their description into your report
-the single most tempting failure of this skill. The description tells you what the author
-*believes* and *intends*; it cannot tell you what the merged code does. Read it for the
-*why* and for the open questions the author flagged, then verify every factual claim
-against the diff. Independent reading is what earns the report its keep: it finds the
-things the description doesn't say — a new exported function with no production caller
-yet, a helper whose "single chokepoint" claim is or isn't true in the call graph.
+**A detailed PR description is evidence, not a source.** It tells you what the author
+*believes* and *intends*, not what the merged code does. Read it for the *why* and for the
+open questions it flags, then verify every factual claim against the diff. Independent
+reading is what earns the report its keep — it finds what the description doesn't say: a
+new exported function with no production caller, a "single chokepoint" that isn't one.
 
 ### 3 — Triage the file list
 
@@ -125,30 +122,26 @@ nothing else. Do not add external scripts, fonts, or stylesheets — the report 
 from a `file://` URL with the network off.
 
 **Language:** write the prose in the language of the conversation that invoked the skill —
-but only the prose. **Technical vocabulary stays in English.** That obviously covers code
-identifiers, file paths, and API names; it equally covers the terms of art around them —
-*predicate, oracle, invariant, contract, idempotent, fuzz, offset, AST, chokepoint*.
+but only the prose. **Technical vocabulary stays in English:** code identifiers, file paths
+and API names, and equally the terms of art around them — *predicate, oracle, invariant,
+contract, idempotent, fuzz, offset, AST, chokepoint*.
 
 Translating a term of art hands the reader an unfamiliar word for a concept they already
-know: «도메인 술어» costs more to parse than "domain predicate", and a term you coin
-yourself while translating is worse still, because it names nothing they can look up. The
-test is whether a working engineer in that language would say the word out loud — they say
-"predicate" and "idempotent"; they do say 정규화 and 파싱. When the surrounding project has
-settled on a native-language word for something, follow the project. Otherwise leave the
-English alone.
+know, and a term you coin while translating is worse still — it names nothing they can look
+up. The test is whether a working engineer in that language would say the word out loud:
+they say "predicate" and "idempotent"; they do say 정규화 and 파싱. When the surrounding
+project has settled on a native-language word, follow the project.
 
 **Quoted code is verbatim, and every rule above stops at the `<pre>`.** A snippet is
-evidence: its value is that it shows what the file actually says, so the reader can check
-your prose against it. Rewriting anything inside it — a source comment translated,
-terminology "made consistent" with the surrounding narrative, whitespace tidied, an
-identifier renamed to match the text — destroys exactly that, and does it invisibly,
-because a doctored quote looks like a quote. Elision is the one edit allowed: cut lines
-out and mark the gap (`// …`), never alter a line you keep.
+evidence: its value is that the reader can check your prose against what the file actually
+says. Rewriting anything inside it — a translated source comment, terminology "made
+consistent" with the narrative, tidied whitespace, an identifier renamed to match the text
+— destroys that invisibly, because a doctored quote looks like a quote. Elision is the one
+edit allowed: cut lines out and mark the gap (`// …`), never alter a line you keep.
 
-This bites hardest on a sweeping edit late in the writing. If you find yourself running a
-find-and-replace over the whole document — a terminology pass, a rename, a tone fix —
-**exclude the code blocks from it and re-check them afterward**, because that is precisely
-the move that silently edits a quotation.
+A sweeping late edit — a terminology pass, a rename, a tone fix — is precisely the move
+that silently rewrites a quotation, so **exclude the code blocks from it and re-check them
+afterward**.
 
 The four sections, and the standard each one has to meet:
 
@@ -164,17 +157,17 @@ files it touches, and **1–3 short paragraphs of prose** answering: what change
 what it means for the reader. Add a diagram or an interactive component only where step 5
 said it earns its place.
 
-**Attach enough code that a reviewer could approve without opening the diff.** Prose alone
-describes the logic; a reviewer has to *check* it, and sending them back to GitHub for
-that defeats the document. So for the changes at the heart of the branch, quote the
-function whole — up to about 25 lines — rather than the two lines that changed, and when a
-stepper walks through procedural logic, **give every step the code it is describing**. The
-snippets are collapsed, so several of them cost the reader nothing until they want one.
+**Attach enough code that a reviewer could approve without opening the diff.** Prose
+describes the logic; a reviewer has to *check* it, and sending them back to GitHub for that
+defeats the document. So for the changes at the heart of the branch, quote the function
+whole — up to about 25 lines — rather than the two lines that changed, and **give every
+step of a stepper the code it is describing**. Snippets are collapsed, so several of them
+cost the reader nothing until they want one.
 
 The limit is still real, just further out: never paste a whole file, never quote code the
 prose does not discuss, and keep supporting or incidental changes to one short excerpt or
-none. A card with six collapsed snippets covering six things the prose named is fine; a
-card with one 200-line dump is not.
+none. Six collapsed snippets covering six things the prose named is fine; one 200-line
+dump is not.
 
 Write in the indicative, about the code: *"Reads now hit the cache first, and the DB is
 only the miss path."* Not *"This PR adds a cache."* — that's about the PR, not the system.
@@ -204,9 +197,8 @@ sentence, and note which of the major changes are therefore unverified.
 
 #### Excluded
 The bucket from step 3, as one short paragraph or a compact list. If nothing was excluded,
-keep the section and say so in one sentence — that a file which normally gets dropped was
-small enough to keep is itself worth a reader's second of attention, and a silent section
-is indistinguishable from a triage that never ran.
+keep the section and say so in one sentence — a silent section is indistinguishable from a
+triage that never ran.
 
 ### 7 — Length discipline
 
@@ -265,10 +257,10 @@ Then check the rest by hand — the checker cannot judge any of it:
 
 ## Reference files
 
-- `scripts/check-report.py` — the static checker described under *Quality bar*. Standard
-  library only; run it before handing anything over.
+- `scripts/check-report.py` — the static checker from *Quality bar*. Run it before handing
+  anything over.
 - `assets/report-template.html` — the document skeleton and all styles.
 - `references/diagrams.md` — inline-SVG recipes (pipeline, before/after, state, sequence)
   and the class vocabulary wired to the theme tokens.
 - `references/interactive.md` — stepper, before/after tabs, and snippet markup, with the
-  structural rules the built-in JS depends on.
+  structural rules the CSS depends on.

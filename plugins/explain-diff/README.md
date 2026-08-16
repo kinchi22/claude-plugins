@@ -36,16 +36,16 @@ Plus, where they help understanding:
 - **Interactive walkthroughs** — a stepper for procedural logic with three or more ordered
   states, before/after tabs for rewritten algorithms. **CSS-only**, built on radio inputs
   and `:checked` selectors, so they still work in viewers that sandbox the page without
-  `allow-scripts` — the Claude mobile app among them, where a JS-driven version is inert.
+  `allow-scripts` — the Claude mobile app among them.
 
 The document is theme-aware (light/dark, plus a manual toggle that reveals itself only
 where scripts run), responsive, and prints with every step expanded.
 
 ## Invocation
 
-**Explicit only**, enforced by `disable-model-invocation: true` in the skill's frontmatter
-rather than by asking the model nicely. It never self-triggers on an ordinary "review this
-PR" or "summarize this branch" — you have to name it.
+**Explicit only**, enforced by `disable-model-invocation: true` in the skill's frontmatter.
+It never self-triggers on an ordinary "review this PR" or "summarize this branch" — you
+have to name it.
 
 ```
 /explain-diff                       # current branch vs. merge base with the default branch

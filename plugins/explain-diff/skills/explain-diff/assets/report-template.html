@@ -188,14 +188,13 @@ svg .arrowhead-accent { fill: var(--accent); }
 
 /* ============================================================
    Interactive components — CSS ONLY, no JavaScript.
-   Embedded viewers (the Claude mobile app among them) sandbox the
-   page without allow-scripts, so anything JS-driven is dead on
-   arrival there. Radio inputs + :checked sibling selectors work in
-   every sandbox, and the hidden-but-focusable radio group gives
-   arrow-key navigation for free.
-   The rules are indexed (nth-of-type ↔ nth-child) so the same
-   stylesheet drives every instance with no per-instance CSS —
-   just keep rail labels and panels in the same order.
+   Embedded viewers sandbox the page without allow-scripts, so
+   anything JS-driven is dead there. Radios + :checked sibling
+   selectors work in every sandbox, and the hidden-but-focusable
+   radio group gives arrow-key navigation for free.
+   The rules are indexed (nth-of-type ↔ nth-child), so one
+   stylesheet drives every instance — keep rail labels and panels
+   in the same order.
    ============================================================ */
 
 /* ---------- interactive: stepper ---------- */
@@ -273,9 +272,8 @@ ul.tight li { margin-bottom: .3rem; }
 .excluded code { font-family: var(--mono); font-size: .78rem; }
 
 /* ---------- theme toggle ----------
-   The one JS-dependent affordance, so it stays hidden until the script
-   unhides it. A viewer that blocks scripts shows no dead button and
-   still follows its own light/dark setting. */
+   Hidden until the script unhides it, so a script-blocking viewer shows
+   no dead button and still follows its own light/dark setting. */
 .theme-toggle {
   display: none;
   position: fixed; top: .85rem; right: .85rem; z-index: 10;
@@ -398,9 +396,8 @@ ul.tight li { margin-bottom: .3rem; }
 
 </main>
 <script>
-// The ONLY script in the document, and nothing structural depends on it.
-// Steppers and before/after tabs are pure CSS so they survive a
-// script-blocking viewer; the theme toggle cannot be, so it reveals
+// The only script in the document; nothing structural depends on it.
+// The theme toggle is the one affordance that needs JS, so it reveals
 // itself here and stays hidden when scripts do not run.
 (function () {
   var root = document.documentElement, tt = document.getElementById('themeToggle');
