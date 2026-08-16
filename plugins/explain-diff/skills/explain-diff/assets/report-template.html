@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+/* ============================================================
+   explain-diff report — self-contained. No external requests.
+   Palette lives in tokens; dark mode is defined three ways so it
+   works as a local file, in a host that stamps data-theme, and in
+   an Artifact frame.
+   ============================================================ */
+:root {
+  --bg: #fbfbfa;
+  --surface: #ffffff;
+  --surface-2: #f4f4f2;
+  --fg: #1b1b19;
+  --fg-muted: #5f5f59;
+  --fg-faint: #8a8a82;
+  --border: #e2e2dd;
+  --border-strong: #cfcfc7;
+  --accent: #b8552a;
+  --accent-soft: #f6e8e0;
+  --add: #2f7a4d;
+  --add-soft: #e6f2ea;
+  --del: #b3372f;
+  --del-soft: #fae9e7;
+  --warn: #9a6b00;
+  --warn-soft: #f9efd8;
+  --code-bg: #f4f4f2;
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 6px 20px rgba(0,0,0,.05);
+  --radius: 10px;
+  --maxw: 62rem;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17171a;
+    --surface: #1e1e22;
+    --surface-2: #26262b;
+    --fg: #ececea;
+    --fg-muted: #a8a8a2;
+    --fg-faint: #7d7d78;
+    --border: #33333a;
+    --border-strong: #45454e;
+    --accent: #e08b5f;
+    --accent-soft: #35251d;
+    --add: #6cc08a;
+    --add-soft: #1c2c22;
+    --del: #e28079;
+    --del-soft: #302020;
+    --warn: #d6ab52;
+    --warn-soft: #2e2718;
+    --code-bg: #26262b;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #17171a;
+  --surface: #1e1e22;
+  --surface-2: #26262b;
+  --fg: #ececea;
+  --fg-muted: #a8a8a2;
+  --fg-faint: #7d7d78;
+  --border: #33333a;
+  --border-strong: #45454e;
+  --accent: #e08b5f;
+  --accent-soft: #35251d;
+  --add: #6cc08a;
+  --add-soft: #1c2c22;
+  --del: #e28079;
+  --del-soft: #302020;
+  --warn: #d6ab52;
+  --warn-soft: #2e2718;
+  --code-bg: #26262b;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+
+/* ---------- header ---------- */
+.masthead { border-bottom: 1px solid var(--border); padding-bottom: 1.25rem; margin-bottom: 2rem; }
+.eyebrow { font-size: .75rem; letter-spacing: .09em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+h1 { font-size: clamp(1.6rem, 1.1rem + 2vw, 2.2rem); line-height: 1.25; margin: .35rem 0 .6rem; letter-spacing: -.015em; }
+.meta { display: flex; flex-wrap: wrap; gap: .4rem .5rem; align-items: center; font-size: .82rem; color: var(--fg-muted); }
+.meta code { font-family: var(--mono); font-size: .8rem; background: var(--surface-2); border: 1px solid var(--border); border-radius: 5px; padding: .1rem .35rem; }
+.stat { font-variant-numeric: tabular-nums; }
+.stat .plus { color: var(--add); font-weight: 600; }
+.stat .minus { color: var(--del); font-weight: 600; }
+
+/* ---------- sections ---------- */
+section { margin: 0 0 2.75rem; }
+h2 {
+  font-size: 1.15rem; letter-spacing: -.01em; margin: 0 0 1rem;
+  padding-bottom: .45rem; border-bottom: 1px solid var(--border);
+  display: flex; align-items: baseline; gap: .55rem;
+}
+h2 .count { font-size: .78rem; font-weight: 500; color: var(--fg-faint); font-variant-numeric: tabular-nums; }
+h3 { font-size: 1rem; margin: 0 0 .45rem; letter-spacing: -.005em; }
+p { margin: 0 0 .85rem; }
+p:last-child { margin-bottom: 0; }
+a { color: var(--accent); }
+
+/* ---------- lede ---------- */
+.lede { font-size: 1.05rem; color: var(--fg); }
+.takeaway {
+  margin-top: 1rem; padding: .85rem 1rem; border-left: 3px solid var(--accent);
+  background: var(--accent-soft); border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: .95rem;
+}
+
+/* ---------- change cards ---------- */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.15rem 1.25rem; margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+.card-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; margin-bottom: .5rem; }
+.card-head h3 { margin: 0; }
+.files { font-family: var(--mono); font-size: .74rem; color: var(--fg-faint); word-break: break-all; }
+
+.chip {
+  display: inline-block; font-size: .68rem; font-weight: 600; letter-spacing: .04em;
+  text-transform: uppercase; padding: .12rem .45rem; border-radius: 999px;
+  border: 1px solid var(--border-strong); color: var(--fg-muted); background: var(--surface-2);
+  white-space: nowrap;
+}
+.chip.behavior { color: var(--accent); background: var(--accent-soft); border-color: transparent; }
+.chip.added    { color: var(--add); background: var(--add-soft); border-color: transparent; }
+.chip.removed  { color: var(--del); background: var(--del-soft); border-color: transparent; }
+.chip.risk     { color: var(--warn); background: var(--warn-soft); border-color: transparent; }
+
+/* ---------- minor changes table ---------- */
+.table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: .6rem .8rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+thead th { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--fg-faint); font-weight: 600; background: var(--surface-2); }
+tbody tr:last-child td { border-bottom: none; }
+td code, th code { font-family: var(--mono); font-size: .8rem; }
+.nowrap { white-space: nowrap; }
+
+/* ---------- code snippets ---------- */
+details.snippet { margin-top: .75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-2); }
+details.snippet > summary {
+  cursor: pointer; list-style: none; padding: .45rem .7rem;
+  font-size: .78rem; color: var(--fg-muted); font-family: var(--mono);
+  display: flex; align-items: center; gap: .4rem;
+}
+details.snippet > summary::-webkit-details-marker { display: none; }
+details.snippet > summary::before { content: "▸"; font-size: .7rem; color: var(--fg-faint); }
+details.snippet[open] > summary::before { content: "▾"; }
+details.snippet > summary:hover { color: var(--fg); }
+pre { margin: 0; padding: .7rem .8rem; overflow-x: auto; background: var(--code-bg); border-top: 1px solid var(--border); border-radius: 0 0 8px 8px; }
+code, pre { font-family: var(--mono); font-size: .8rem; line-height: 1.6; }
+pre code { background: none; padding: 0; }
+.d-add { color: var(--add); display: block; }
+.d-del { color: var(--del); display: block; }
+.d-ctx { color: var(--fg-muted); display: block; }
+
+/* ---------- diagrams ---------- */
+figure.diagram { margin: 1.1rem 0 .4rem; overflow-x: auto; }
+figure.diagram svg { display: block; width: 100%; height: auto; max-width: 100%; font-family: var(--sans); }
+figure.diagram figcaption { font-size: .78rem; color: var(--fg-faint); margin-top: .45rem; text-align: center; }
+svg .node { fill: var(--surface); stroke: var(--border-strong); stroke-width: 1.5; }
+svg .node-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+svg .node-add { fill: var(--add-soft); stroke: var(--add); stroke-width: 1.5; }
+svg .node-del { fill: var(--del-soft); stroke: var(--del); stroke-width: 1.5; }
+svg .label { fill: var(--fg); font-size: 13px; }
+svg .label-sm { fill: var(--fg-muted); font-size: 11px; }
+svg .edge { stroke: var(--border-strong); stroke-width: 1.5; fill: none; }
+svg .edge-accent { stroke: var(--accent); stroke-width: 2; fill: none; }
+svg .edge-dashed { stroke: var(--border-strong); stroke-width: 1.5; fill: none; stroke-dasharray: 4 3; }
+svg .arrowhead { fill: var(--border-strong); }
+svg .arrowhead-accent { fill: var(--accent); }
+
+/* ============================================================
+   Interactive components — CSS ONLY, no JavaScript.
+   Embedded viewers sandbox the page without allow-scripts, so
+   anything JS-driven is dead there. Radios + :checked sibling
+   selectors work in every sandbox, and the hidden-but-focusable
+   radio group gives arrow-key navigation for free.
+   The rules are indexed (nth-of-type ↔ nth-child), so one
+   stylesheet drives every instance — keep rail labels and panels
+   in the same order.
+   ============================================================ */
+
+/* ---------- interactive: stepper ---------- */
+.stepper { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); margin: 1.1rem 0; overflow: hidden; }
+/* Visually hidden, still focusable — never display:none, that kills keyboard access. */
+.stepper > input, .ba > input {
+  position: absolute; width: 1px; height: 1px; opacity: 0; margin: 0; pointer-events: none;
+}
+.stepper-rail { display: flex; gap: .3rem; padding: .6rem .7rem; background: var(--surface-2); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.stepper-rail label {
+  font-size: .76rem; cursor: pointer; padding: .22rem .6rem; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: var(--surface); color: var(--fg-muted);
+  user-select: none;
+}
+.stepper-body { padding: 1rem 1.1rem; }
+.step { display: none; }
+.step h4 { margin: 0 0 .4rem; font-size: .95rem; }
+.stepper-hint { font-size: .74rem; color: var(--fg-faint); padding: .5rem .9rem; border-top: 1px solid var(--border); background: var(--surface-2); }
+
+.stepper > input:nth-of-type(1):checked ~ .stepper-body > .step:nth-child(1),
+.stepper > input:nth-of-type(2):checked ~ .stepper-body > .step:nth-child(2),
+.stepper > input:nth-of-type(3):checked ~ .stepper-body > .step:nth-child(3),
+.stepper > input:nth-of-type(4):checked ~ .stepper-body > .step:nth-child(4),
+.stepper > input:nth-of-type(5):checked ~ .stepper-body > .step:nth-child(5),
+.stepper > input:nth-of-type(6):checked ~ .stepper-body > .step:nth-child(6) { display: block; }
+
+.stepper > input:nth-of-type(1):checked ~ .stepper-rail > label:nth-child(1),
+.stepper > input:nth-of-type(2):checked ~ .stepper-rail > label:nth-child(2),
+.stepper > input:nth-of-type(3):checked ~ .stepper-rail > label:nth-child(3),
+.stepper > input:nth-of-type(4):checked ~ .stepper-rail > label:nth-child(4),
+.stepper > input:nth-of-type(5):checked ~ .stepper-rail > label:nth-child(5),
+.stepper > input:nth-of-type(6):checked ~ .stepper-rail > label:nth-child(6) {
+  background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600;
+}
+
+.stepper > input:nth-of-type(1):focus-visible ~ .stepper-rail > label:nth-child(1),
+.stepper > input:nth-of-type(2):focus-visible ~ .stepper-rail > label:nth-child(2),
+.stepper > input:nth-of-type(3):focus-visible ~ .stepper-rail > label:nth-child(3),
+.stepper > input:nth-of-type(4):focus-visible ~ .stepper-rail > label:nth-child(4),
+.stepper > input:nth-of-type(5):focus-visible ~ .stepper-rail > label:nth-child(5),
+.stepper > input:nth-of-type(6):focus-visible ~ .stepper-rail > label:nth-child(6) {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+
+/* ---------- interactive: before/after toggle ---------- */
+.ba { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); margin: 1.1rem 0; overflow: hidden; }
+.ba-rail { display: flex; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.ba-rail label {
+  flex: 1; text-align: center; font-size: .8rem; cursor: pointer; padding: .45rem .7rem;
+  color: var(--fg-muted); border-bottom: 2px solid transparent; user-select: none;
+}
+.ba-body > .ba-panel { display: none; padding: 1rem 1.1rem; }
+
+.ba > input:nth-of-type(1):checked ~ .ba-body > .ba-panel:nth-child(1),
+.ba > input:nth-of-type(2):checked ~ .ba-body > .ba-panel:nth-child(2),
+.ba > input:nth-of-type(3):checked ~ .ba-body > .ba-panel:nth-child(3) { display: block; }
+
+.ba > input:nth-of-type(1):checked ~ .ba-rail > label:nth-child(1),
+.ba > input:nth-of-type(2):checked ~ .ba-rail > label:nth-child(2),
+.ba > input:nth-of-type(3):checked ~ .ba-rail > label:nth-child(3) {
+  color: var(--fg); font-weight: 600; border-bottom-color: var(--accent); background: var(--surface);
+}
+
+.ba > input:nth-of-type(1):focus-visible ~ .ba-rail > label:nth-child(1),
+.ba > input:nth-of-type(2):focus-visible ~ .ba-rail > label:nth-child(2),
+.ba > input:nth-of-type(3):focus-visible ~ .ba-rail > label:nth-child(3) {
+  outline: 2px solid var(--accent); outline-offset: -2px;
+}
+
+/* ---------- notes ---------- */
+.note { font-size: .85rem; color: var(--fg-muted); }
+ul.tight { margin: 0 0 .85rem; padding-left: 1.15rem; }
+ul.tight li { margin-bottom: .3rem; }
+.excluded { font-size: .85rem; color: var(--fg-muted); }
+.excluded code { font-family: var(--mono); font-size: .78rem; }
+
+/* ---------- theme toggle ----------
+   Hidden until the script unhides it, so a script-blocking viewer shows
+   no dead button and still follows its own light/dark setting. */
+.theme-toggle {
+  display: none;
+  position: fixed; top: .85rem; right: .85rem; z-index: 10;
+  font: inherit; font-size: .75rem; cursor: pointer; padding: .25rem .6rem;
+  border-radius: 999px; border: 1px solid var(--border-strong);
+  background: var(--surface); color: var(--fg-muted); opacity: .75;
+}
+.theme-toggle:hover { opacity: 1; }
+@media print {
+  .theme-toggle, .stepper-rail, .stepper-hint, .ba-rail { display: none; }
+  .step, .ba-body > .ba-panel { display: block !important; }
+}
+</style>
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">◐</button>
+<main class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">{{EYEBROW}}</div>
+    <h1>{{TITLE}}</h1>
+    <div class="meta">
+      <code>{{BASE}} → {{HEAD}}</code>
+      <span>·</span>
+      <span>{{FILE_COUNT}} files</span>
+      <span>·</span>
+      <span class="stat"><span class="plus">+{{ADDITIONS}}</span> / <span class="minus">−{{DELETIONS}}</span></span>
+      <span>·</span>
+      <span>{{COMMIT_COUNT}} commits</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <h2>{{H_SUMMARY}}</h2>
+    <p class="lede">{{SUMMARY_PROSE}}</p>
+    <div class="takeaway">{{TAKEAWAY}}</div>
+    <!-- optional: one orienting diagram of the whole change -->
+    {{SUMMARY_DIAGRAM}}
+  </section>
+
+  <section id="major">
+    <h2>{{H_MAJOR}} <span class="count">{{MAJOR_COUNT}}</span></h2>
+    <!-- repeat .card per major change -->
+    <article class="card">
+      <div class="card-head">
+        <h3>{{CARD_TITLE}}</h3>
+        <span class="chip behavior">{{CARD_CHIP}}</span>
+      </div>
+      <div class="files">{{CARD_FILES}}</div>
+      <p>{{CARD_PROSE}}</p>
+      {{CARD_DIAGRAM}}
+
+      <!-- stepper — CSS only. Radios first, unique `name` per instance, `checked` on #1.
+           Rail label count MUST equal step count, in order. Max 6 steps. -->
+      <div class="stepper">
+        <input type="radio" name="{{STEPPER_ID}}" id="{{STEPPER_ID}}-1" checked>
+        <input type="radio" name="{{STEPPER_ID}}" id="{{STEPPER_ID}}-2">
+        <div class="stepper-rail">
+          <label for="{{STEPPER_ID}}-1">1. {{STEP_1_LABEL}}</label>
+          <label for="{{STEPPER_ID}}-2">2. {{STEP_2_LABEL}}</label>
+        </div>
+        <div class="stepper-body">
+          <div class="step"><h4>1. {{STEP_1_TITLE}}</h4><p>{{STEP_1_PROSE}}</p></div>
+          <div class="step"><h4>2. {{STEP_2_TITLE}}</h4><p>{{STEP_2_PROSE}}</p></div>
+        </div>
+        <div class="stepper-hint">{{STEPPER_HINT}}</div>
+      </div>
+
+      <!-- before/after — CSS only. Same rules; panels live in .ba-body. Max 3. -->
+      <div class="ba">
+        <input type="radio" name="{{BA_ID}}" id="{{BA_ID}}-1" checked>
+        <input type="radio" name="{{BA_ID}}" id="{{BA_ID}}-2">
+        <div class="ba-rail">
+          <label for="{{BA_ID}}-1">{{BA_1_LABEL}}</label>
+          <label for="{{BA_ID}}-2">{{BA_2_LABEL}}</label>
+        </div>
+        <div class="ba-body">
+          <div class="ba-panel">{{BA_1_CONTENT}}</div>
+          <div class="ba-panel">{{BA_2_CONTENT}}</div>
+        </div>
+      </div>
+
+      <details class="snippet">
+        <summary>{{SNIPPET_LABEL}}</summary>
+        <pre><code><span class="d-ctx">{{CTX_LINE}}</span><span class="d-del">- {{OLD_LINE}}</span><span class="d-add">+ {{NEW_LINE}}</span></code></pre>
+      </details>
+    </article>
+  </section>
+
+  <section id="minor">
+    <h2>{{H_MINOR}} <span class="count">{{MINOR_COUNT}}</span></h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>{{TH_WHERE}}</th><th>{{TH_WHAT}}</th><th class="nowrap">{{TH_WHY}}</th></tr></thead>
+        <tbody>
+          <tr><td><code>{{MINOR_FILE}}</code></td><td>{{MINOR_WHAT}}</td><td>{{MINOR_WHY}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="tests">
+    <h2>{{H_TESTS}} <span class="count">{{TEST_COUNT}}</span></h2>
+    <p class="note">{{TEST_INTRO}}</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>{{TH_CASE}}</th><th>{{TH_VERIFIES}}</th><th class="nowrap">{{TH_KIND}}</th></tr></thead>
+        <tbody>
+          <tr><td><code>{{TEST_NAME}}</code></td><td>{{TEST_VERIFIES}}</td><td class="nowrap"><span class="chip">{{TEST_KIND}}</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">{{TEST_GAPS}}</p>
+  </section>
+
+  <section id="excluded">
+    <h2>{{H_EXCLUDED}}</h2>
+    <p class="excluded">{{EXCLUDED_LIST}}</p>
+  </section>
+
+</main>
+<script>
+// The only script in the document; nothing structural depends on it.
+// The theme toggle is the one affordance that needs JS, so it reveals
+// itself here and stays hidden when scripts do not run.
+(function () {
+  var root = document.documentElement, tt = document.getElementById('themeToggle');
+  if (!tt) return;
+  tt.style.display = 'block';
+  tt.addEventListener('click', function () {
+    var set = root.getAttribute('data-theme');
+    var dark = set ? set === 'dark'
+                   : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "explain-diff",
+  "description": "Explain a git branch or pull request diff as a self-contained prose HTML document, with inline-SVG diagrams and a test-case table.",
+  "version": "0.1.0",
+  "category": "engineering",
+  "tags": ["diff", "pull-request", "code-explanation", "html", "documentation", "svg", "skill"],
+  "author": {
+    "name": "Seulki Bae",
+    "email": "kinchi22@gmail.com"
+  }
+}
