@@ -3,7 +3,7 @@
 Write a milestone **PRD** whose centre is an ordered checklist of **executable slices** —
 by **grilling you first**.
 
-Following the [`/grill-me`](../grill-me/) concept, the skill interrogates the plan one
+Following the [`/grill-me`](https://github.com/mattpocock/skills) concept, the skill interrogates the plan one
 question at a time (each with a recommended answer, exploring the codebase and
 `docs/glossary.md` instead of asking when it can) and walks the decision tree until you
 reach shared understanding — *then* it writes the PRD. A vague PRD forces constant
@@ -50,7 +50,7 @@ rest of the cycle runs on — each becomes a branch off the milestone branch, go
 
 ## Related
 
-- [`grill-me`](../grill-me/) — the relentless-interview concept this skill applies to PRD writing
+- [`grill-me`](https://github.com/mattpocock/skills) — the relentless-interview concept this skill applies to PRD writing (from `mattpocock/skills`)
 - [`harness-init`](../harness-init/) — establishes the dev cycle and the `docs/prd/TEMPLATE.md` this skill follows
-- [`tdd`](../tdd/) — drives each `[impl]` slice's acceptance check
+- [`tdd`](https://github.com/mattpocock/skills) — drives each `[impl]` slice's acceptance check (from `mattpocock/skills`)
 - [`handoff`](../handoff/) — hands the next session a clean starting point

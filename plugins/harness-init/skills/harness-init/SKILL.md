@@ -97,8 +97,11 @@ decide goal → /prd → commit PRD + cut milestone branch
 
 Tell the user which **partner skills** the cycle relies on and where to get them:
 
-- `/prd`, `/tdd`, and `/handoff` — all available in this marketplace
-  (`/plugin install prd@kinchi22-claude-plugins`, `tdd@…`, `handoff@…`).
+- `/prd` and `/handoff` — available in this marketplace
+  (`/plugin install prd@kinchi22-claude-plugins`, `handoff@…`).
+- `/tdd` — from Matt Pocock's marketplace
+  (`/plugin marketplace add mattpocock/skills`, then
+  `/plugin install mattpocock-skills@mattpocock`).
 - The PRD template is not scaffolded here: `/prd` owns it and seeds
   `docs/prd/TEMPLATE.md` on first run.
 

@@ -6,44 +6,17 @@
   },
   "plugins": [
     {
-      "name": "clarify-first",
-      "source": "./plugins/clarify-first",
-      "description": "A clarify-first skill that replaces plan mode by driving every ambiguity out of a request with one focused question at a time before producing a spec.",
-      "version": "0.1.0",
-      "category": "productivity",
-      "tags": ["planning", "requirements", "clarification", "skill", "spec"]
-    },
-    {
       "name": "handoff",
       "source": "./plugins/handoff",
       "description": "Write or update a HANDOFF.md so the next agent with fresh context can continue this work. Sourced from ykdojo/claude-code-tips.",
       "version": "0.1.0",
       "category": "productivity",
-      "tags": ["handoff", "context", "continuation", "skill"]
-    },
-    {
-      "name": "grill-me",
-      "source": "./plugins/grill-me",
-      "description": "Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Sourced from mattpocock/skills (MIT).",
-      "version": "0.1.0",
-      "category": "productivity",
-      "tags": ["planning", "design", "interview", "skill"]
-    },
-    {
-      "name": "grill-with-docs",
-      "source": "./plugins/grill-with-docs",
-      "description": "Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation (CONTEXT.md, ADRs) inline as decisions crystallise. Sourced from mattpocock/skills (MIT).",
-      "version": "0.1.0",
-      "category": "productivity",
-      "tags": ["planning", "design", "interview", "documentation", "ddd", "skill"]
-    },
-    {
-      "name": "tdd",
-      "source": "./plugins/tdd",
-      "description": "Test-driven development with the red-green-refactor loop, driven by vertical slices (tracer bullets) and tests that verify behavior through public interfaces. Sourced from mattpocock/skills (MIT).",
-      "version": "0.1.0",
-      "category": "engineering",
-      "tags": ["tdd", "testing", "red-green-refactor", "engineering", "skill"]
+      "tags": [
+        "handoff",
+        "context",
+        "continuation",
+        "skill"
+      ]
     },
     {
       "name": "prd",
@@ -51,7 +24,14 @@
       "description": "Write a milestone PRD by grilling the user one question at a time (the /grill-me concept) through the decision tree — goal, user stories, scope, glossary terms, slice boundaries, acceptance checks — then writing an ordered checklist of independently-shippable executable slices to docs/prd/<slug>.md. Step 2 of the harness dev cycle.",
       "version": "0.1.0",
       "category": "engineering",
-      "tags": ["prd", "planning", "slices", "user-stories", "milestone", "skill"]
+      "tags": [
+        "prd",
+        "planning",
+        "slices",
+        "user-stories",
+        "milestone",
+        "skill"
+      ]
     },
     {
       "name": "harness-init",
@@ -59,7 +39,16 @@
       "description": "One-time, explicitly-invoked bootstrap that sets up or upgrades a project's agentic development harness: a thin CLAUDE.md that @imports coding guidelines, a PRD -> milestone-branch -> per-slice TDD -> review -> handoff dev cycle, an authoritative docs/glossary.md, and an ADR template (the PRD template is owned by the /prd skill). Idempotent.",
       "version": "0.1.0",
       "category": "engineering",
-      "tags": ["harness", "workflow", "claude-md", "tdd", "prd", "glossary", "bootstrap", "skill"]
+      "tags": [
+        "harness",
+        "workflow",
+        "claude-md",
+        "tdd",
+        "prd",
+        "glossary",
+        "bootstrap",
+        "skill"
+      ]
     },
     {
       "name": "explain-diff",
@@ -67,7 +56,15 @@
       "description": "Explain a git branch or pull request diff as a self-contained prose HTML document, with inline-SVG diagrams and a test-case table.",
       "version": "0.1.0",
       "category": "engineering",
-      "tags": ["diff", "pull-request", "code-explanation", "html", "documentation", "svg", "skill"]
+      "tags": [
+        "diff",
+        "pull-request",
+        "code-explanation",
+        "html",
+        "documentation",
+        "svg",
+        "skill"
+      ]
     }
   ]
 }

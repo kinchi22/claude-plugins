@@ -46,12 +46,12 @@ missing — never overwritten.
 
 ## Partner skills
 
-The cycle calls these skills; install them from this marketplace:
+The cycle calls these skills; install them from the marketplace listed for each:
 
 | Skill | Role | Source |
 |-------|------|--------|
 | [`prd`](../prd/) | Write the PRD with its slice checklist | this marketplace |
-| [`tdd`](../tdd/) | Red-green-refactor for implementation slices | this marketplace |
+| [`tdd`](https://github.com/mattpocock/skills) | Red-green-refactor for implementation slices | `mattpocock/skills` |
 | [`handoff`](../handoff/) | Write HANDOFF.md for the next session | this marketplace |
 
 ## Installation
