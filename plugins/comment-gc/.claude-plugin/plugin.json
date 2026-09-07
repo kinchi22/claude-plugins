@@ -1,0 +1,11 @@
+{
+  "name": "comment-gc",
+  "description": "Collect accumulated comment garbage — stale, historical, and self-evident comments deleted, verbose ones compressed — while changing zero lines of code, proven mechanically.",
+  "version": "0.1.0",
+  "category": "engineering",
+  "tags": ["comments", "cleanup", "refactoring", "code-quality", "agentic-coding", "skill"],
+  "author": {
+    "name": "Seulki Bae",
+    "email": "kinchi22@gmail.com"
+  }
+}

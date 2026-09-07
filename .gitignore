@@ -2,3 +2,5 @@ CLAUDE.local.md
 .claude/settings.local.json
 .harness-init-evals/
 docs/prd/
+__pycache__/
+*.pyc

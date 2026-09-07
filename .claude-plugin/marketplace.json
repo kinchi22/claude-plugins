@@ -65,6 +65,21 @@
         "svg",
         "skill"
       ]
+    },
+    {
+      "name": "comment-gc",
+      "source": "./plugins/comment-gc",
+      "description": "Collect the comment garbage that piles up during agentic coding: delete stale, historical, and self-evident comments, compress verbose ones to their point, keep the load-bearing why - while changing zero lines of code, proven mechanically by a bundled guard script.",
+      "version": "0.1.0",
+      "category": "engineering",
+      "tags": [
+        "comments",
+        "cleanup",
+        "refactoring",
+        "code-quality",
+        "agentic-coding",
+        "skill"
+      ]
     }
   ]
 }
