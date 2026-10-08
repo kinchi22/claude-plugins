@@ -1,0 +1,31 @@
+{
+  "name": "usage-hud",
+  "description": "Context bar, cost, 5h/1w rate limits and a live prompt-cache countdown above the prompt",
+  "version": "0.1.0",
+  "category": "productivity",
+  "tags": [
+    "status-line",
+    "usage",
+    "rate-limits",
+    "context-window",
+    "prompt-cache",
+    "mod"
+  ],
+  "author": {
+    "name": "Seulki Bae",
+    "email": "kinchi22@gmail.com"
+  },
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "cacheTtl": {
+      "type": "string",
+      "title": "Prompt cache TTL",
+      "description": "How long the prompt cache stays warm after the last response",
+      "default": "1h",
+      "options": [
+        "5m",
+        "1h"
+      ]
+    }
+  }
+}

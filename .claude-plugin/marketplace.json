@@ -80,6 +80,21 @@
         "agentic-coding",
         "skill"
       ]
+    },
+    {
+      "name": "usage-hud",
+      "source": "./plugins/usage-hud",
+      "description": "A one-line HUD above the prompt with the context-window bar, session cost, 5h and weekly rate-limit usage, and a live prompt-cache countdown that turns cold when the cache TTL lapses. A function-hooks mod.",
+      "version": "0.1.0",
+      "category": "productivity",
+      "tags": [
+        "status-line",
+        "usage",
+        "rate-limits",
+        "context-window",
+        "prompt-cache",
+        "mod"
+      ]
     }
   ]
 }
