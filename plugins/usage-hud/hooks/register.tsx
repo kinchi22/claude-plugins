@@ -181,13 +181,13 @@ export const register: Register = (on, options) => {
     const bars = chart(history)
     const delta = trend(history)
     const turnsText = bars ? `  last turns ${bars}${delta ? `  ${delta}` : ''}` : ''
-    const tail = parts.reduce((n, p) => n + 3 + p.text.length, 0)
-    const fixed = icon.length + label.length + turnsText.length + tail + 1
+    const fixed = icon.length + label.length + turnsText.length + 1
     const width = Math.max(10, Math.min(50, e.props.bodyColumns - fixed))
     const { filled, empty } = bar(pct, width)
 
+    // Line 1: context and turn history; line 2, indented under the bar: cost, limits, cache.
     return (
-      <Box>
+      <Box flexDirection="column">
         <Text wrap="truncate-end">
           <Text color={ctxColor}>{icon}</Text>
           <Text color={ctxColor}>{filled}</Text>
@@ -200,9 +200,12 @@ export const register: Register = (on, options) => {
               {delta ? <Text color={GRAY}>{`  ${delta}`}</Text> : null}
             </Text>
           ) : null}
-          {parts.map(p => (
+        </Text>
+        <Text wrap="truncate-end">
+          {' '.repeat(icon.length)}
+          {parts.map((p, i) => (
             <Text key={p.text}>
-              {sep}
+              {i > 0 ? sep : null}
               <Text color={p.color}>{p.text}</Text>
             </Text>
           ))}

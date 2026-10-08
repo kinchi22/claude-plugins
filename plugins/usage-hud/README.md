@@ -1,12 +1,16 @@
 # usage-hud
 
-A one-line HUD above the Claude Code prompt that shows what a status line usually
+A two-line HUD above the Claude Code prompt that shows what a status line usually
 shows — plus the one thing a status line can't keep current: **how long the prompt
 cache stays warm**.
 
 ```
-☁  ███████████▄░░░░░░░░░░  23% of 1000k tokens  last turns ▁▂█  ▲ +98.3k last turn | 💸 $1.50 | 5h 12% (2h3m) | wk 41% (3d4h) | cache 42m
+☁  ███████████▄░░░░░░░░░░  23% of 1000k tokens  last turns ▁▂█  ▲ +98.3k last turn
+   💸 $1.50 | 5h 12% (2h3m) | wk 41% (3d4h) | cache 42m
 ```
+
+The first line shows the context window and turn history; the second shows cost,
+rate limits and the cache countdown.
 
 | Segment | Source | Colors |
 |---------|--------|--------|
