@@ -4,3 +4,6 @@ CLAUDE.local.md
 docs/prd/
 __pycache__/
 *.pyc
+
+# Engine-generated mod typings (written beside a mod when it loads)
+plugins/*/.claude-plugin/types/
