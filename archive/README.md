@@ -9,3 +9,5 @@ instructions inside each plugin's own README are stale.
 | Plugin | Archived | Why |
 |--------|----------|-----|
 | [clarify-first](clarify-first/) | 2026-09 | Deregistered from the marketplace; kept for reference |
+| [prd](prd/) | 2026-10 | Deregistered from the marketplace; kept for reference |
+| [harness-init](harness-init/) | 2026-10 | Deregistered from the marketplace; kept for reference |
