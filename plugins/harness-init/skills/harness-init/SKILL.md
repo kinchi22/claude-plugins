@@ -97,8 +97,8 @@ decide goal → /prd → commit PRD + cut milestone branch
 
 Tell the user which **partner skills** the cycle relies on and where to get them:
 
-- `/prd` and `/handoff` — available in this marketplace
-  (`/plugin install prd@kinchi22-claude-plugins`, `handoff@…`).
+- `/prd` — available in this marketplace
+  (`/plugin install prd@kinchi22-claude-plugins`).
 - `/tdd` — from Matt Pocock's marketplace
   (`/plugin marketplace add mattpocock/skills`, then
   `/plugin install mattpocock-skills@mattpocock`).

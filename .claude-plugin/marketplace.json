@@ -6,19 +6,6 @@
   },
   "plugins": [
     {
-      "name": "handoff",
-      "source": "./plugins/handoff",
-      "description": "Write or update a HANDOFF.md so the next agent with fresh context can continue this work. Sourced from ykdojo/claude-code-tips.",
-      "version": "0.1.0",
-      "category": "productivity",
-      "tags": [
-        "handoff",
-        "context",
-        "continuation",
-        "skill"
-      ]
-    },
-    {
       "name": "prd",
       "source": "./plugins/prd",
       "description": "Write a milestone PRD by grilling the user one question at a time (the /grill-me concept) through the decision tree — goal, user stories, scope, glossary terms, slice boundaries, acceptance checks — then writing an ordered checklist of independently-shippable executable slices to docs/prd/<slug>.md. Step 2 of the harness dev cycle.",

@@ -53,4 +53,3 @@ rest of the cycle runs on — each becomes a branch off the milestone branch, go
 - [`grill-me`](https://github.com/mattpocock/skills) — the relentless-interview concept this skill applies to PRD writing (from `mattpocock/skills`)
 - [`harness-init`](../harness-init/) — establishes the dev cycle and the `docs/prd/TEMPLATE.md` this skill follows
 - [`tdd`](https://github.com/mattpocock/skills) — drives each `[impl]` slice's acceptance check (from `mattpocock/skills`)
-- [`handoff`](../handoff/) — hands the next session a clean starting point
