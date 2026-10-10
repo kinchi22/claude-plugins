@@ -40,7 +40,7 @@
       "name": "usage-hud",
       "source": "./plugins/usage-hud",
       "description": "A one-line HUD above the prompt with the context-window bar, session cost, 5h and weekly rate-limit usage, and a live prompt-cache countdown that turns cold when the cache TTL lapses. A function-hooks mod.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "productivity",
       "tags": [
         "status-line",
