@@ -1,0 +1,60 @@
+# Weekly check that the docs skill-audit's rules are pinned to haven't changed.
+# No model calls: it downloads four markdown pages and compares pinned quotes,
+# extracted lists, and section headings (plugins/skill-audit/tools/check_docs_drift.py).
+# On drift it opens an issue labelled skill-audit-drift, or comments on the open one
+# when the report differs from what was already posted.
+name: skill-audit docs drift
+
+on:
+  schedule:
+    - cron: "17 3 * * 1" # Mondays 03:17 UTC; off the hour to avoid the scheduler's peak
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: skill-audit-docs-drift
+  cancel-in-progress: false
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compare docs with pinned rules
+        id: check
+        run: |
+          set +e
+          python3 plugins/skill-audit/tools/check_docs_drift.py --report drift.md
+          echo "status=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update the drift issue
+        if: steps.check.outputs.status == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          label=skill-audit-drift
+          # Identical reports from consecutive weeks shouldn't add a comment each time.
+          hash=$(sha256sum drift.md | cut -c1-16)
+          printf '\n<!-- drift-report:%s -->\n' "$hash" >> drift.md
+          gh label create "$label" --color D93F0B --description "skill-audit source docs changed" --force
+          num=$(gh issue list --state open --label "$label" --json number --jq '.[0].number // empty')
+          if [ -z "$num" ]; then
+            gh issue create --title "skill-audit: Claude skill docs changed" --label "$label" --body-file drift.md
+          elif gh issue view "$num" --json body,comments --jq '.body, .comments[].body' | grep -q "drift-report:$hash"; then
+            echo "Issue #$num already has this report."
+          else
+            gh issue comment "$num" --body-file drift.md
+          fi
+
+      - name: Fail when the docs could not be read
+        if: steps.check.outputs.status != '0' && steps.check.outputs.status != '1'
+        run: |
+          echo "::error::check_docs_drift.py exited ${{ steps.check.outputs.status }}: a source page could not be fetched. See the step log above."
+          exit 1

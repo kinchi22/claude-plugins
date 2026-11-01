@@ -51,6 +51,21 @@
         "prompt-cache",
         "mod"
       ]
+    },
+    {
+      "name": "skill-audit",
+      "source": "./plugins/skill-audit",
+      "description": "Audit an Agent Skill against current Claude Code and Agent Skills best practices, with a mechanical checker plus a judgment pass that proposes concrete, ranked fixes.",
+      "version": "0.1.0",
+      "category": "engineering",
+      "tags": [
+        "skills",
+        "skill-authoring",
+        "best-practices",
+        "lint",
+        "review",
+        "skill"
+      ]
     }
   ]
 }

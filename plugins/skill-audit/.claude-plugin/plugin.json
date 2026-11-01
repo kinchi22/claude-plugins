@@ -1,0 +1,9 @@
+{
+  "name": "skill-audit",
+  "description": "Audit an Agent Skill against current Claude Code and Agent Skills best practices: a mechanical checker for frontmatter, budgets, reference depth and security patterns, plus a judgment pass that proposes concrete, ranked fixes.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Seulki Bae",
+    "email": "kinchi22@gmail.com"
+  }
+}

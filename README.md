@@ -8,6 +8,7 @@ A personal Claude Code plugin marketplace: skills and mods I use for agentic cod
 |--------|----------|-------------|
 | [explain-diff](plugins/explain-diff/) | engineering | Explains a branch or PR diff as a self-contained prose HTML document, with inline-SVG diagrams and a test-case table |
 | [comment-gc](plugins/comment-gc/) | engineering | Prunes stale, historical, and self-evident comments and compresses verbose ones, while changing zero lines of code |
+| [skill-audit](plugins/skill-audit/) | engineering | Audits an Agent Skill against current Claude Code best practices and proposes concrete, ranked fixes |
 | [usage-hud](plugins/usage-hud/) | productivity | A HUD above the prompt with the context bar, session cost, 5h/weekly rate limits, and a live prompt-cache countdown |
 
 Retired plugins are kept for reference in [`archive/`](archive/) and are not installable.

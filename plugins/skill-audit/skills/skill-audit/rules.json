@@ -1,0 +1,133 @@
+{
+  "verified": {
+    "claude_code": "2.1.316",
+    "date": "2026-11-02"
+  },
+  "sources": {
+    "skills": "https://code.claude.com/docs/en/skills.md",
+    "best-practices": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices.md",
+    "overview": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview.md",
+    "enterprise": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/enterprise.md"
+  },
+  "limits": {
+    "name_max": {"value": 64, "source": "overview", "quote": "Maximum 64 characters"},
+    "description_max_upload": {"value": 1024, "source": "overview", "quote": "Maximum 1,024 characters"},
+    "listing_max": {"value": 1536, "source": "skills", "quote": "the combined `description` and `when_to_use` text is truncated at 1,536 characters"},
+    "body_lines_max": {"value": 500, "source": "best-practices", "quote": "Keep the `SKILL.md` body under 500 lines"},
+    "body_tokens_max": {"value": 5000, "source": "skills", "quote": "keeping the first 5,000 tokens of each"},
+    "toc_threshold_lines": {"value": 100, "source": "best-practices", "quote": "For reference files longer than 100 lines, include a table of contents at the top"}
+  },
+  "lists": {
+    "reserved_words": {"value": ["anthropic", "claude"], "source": "overview", "quote": "Cannot contain reserved words: `anthropic`, `claude`"},
+    "frontmatter_keys": {
+      "value": ["name", "description", "when_to_use", "argument-hint", "arguments", "disable-model-invocation",
+                "user-invocable", "allowed-tools", "disallowed-tools", "model", "effort", "context", "agent",
+                "background", "hooks", "paths", "shell", "metadata", "license", "compatibility"],
+      "source": "skills", "extract": "frontmatter_table"
+    },
+    "portable_keys": {
+      "value": ["allowed-tools", "compatibility", "description", "license", "metadata", "name"],
+      "source": "skills", "extract": "allowed_properties"
+    },
+    "effort_levels": {
+      "value": ["low", "medium", "high", "xhigh", "max"],
+      "source": "skills", "extract": "effort_options"
+    }
+  },
+  "rules": {
+    "D1": [
+      {"source": "overview", "quote": "Must contain only lowercase letters, numbers, and hyphens"},
+      {"source": "skills", "quote": "If the frontmatter YAML is malformed, Claude Code loads the skill body with empty metadata"},
+      {"source": "skills", "quote": "A field name must match the table exactly"}
+    ],
+    "D2": [
+      {"source": "best-practices", "quote": "Always write in third person"},
+      {"source": "best-practices", "quote": "should include both what the Skill does and when to use it"}
+    ],
+    "D3": [
+      {"source": "skills", "quote": "Put the key use case first"},
+      {"source": "skills", "quote": "The budget scales at 1% of the model's context window"}
+    ],
+    "D4": [
+      {"source": "skills", "quote": "You don't want Claude deciding to deploy because your code looks ready"},
+      {"source": "skills", "quote": "`context: fork` only makes sense for skills with explicit instructions"}
+    ],
+    "C1": [
+      {"source": "overview", "quote": "Under 5k tokens"}
+    ],
+    "C2": [
+      {"source": "best-practices", "quote": "Claude is already very smart"},
+      {"source": "best-practices", "quote": "Only add context Claude doesn't already have"}
+    ],
+    "C3": [
+      {"source": "skills", "quote": "Re-attached skills share a combined budget of 25,000 tokens"},
+      {"source": "skills", "quote": "word the guidance so it applies to the whole task"}
+    ],
+    "P1": [
+      {"source": "best-practices", "quote": "Keep references one level deep from `SKILL.md`"},
+      {"source": "best-practices", "quote": "Claude might use commands such as `head -100` to preview content"}
+    ],
+    "P2": [
+      {"source": "best-practices", "quote": "This ensures Claude can see the full scope of available information even when previewing with partial reads"}
+    ],
+    "P3": [
+      {"source": "enterprise", "quote": "Skill references files that don't exist in its directory"},
+      {"source": "skills", "quote": "Reference supporting files from `SKILL.md` so Claude knows what each file contains and when to load it"}
+    ],
+    "P4": [
+      {"source": "best-practices", "quote": "Always use forward slashes in file paths"},
+      {"source": "best-practices", "quote": "Name files descriptively"}
+    ],
+    "I1": [
+      {"source": "best-practices", "quote": "Match the level of specificity to the task's fragility and variability"},
+      {"source": "best-practices", "quote": "Don't present multiple approaches unless necessary"}
+    ],
+    "I2": [
+      {"source": "best-practices", "quote": "provide a checklist that Claude can copy into its response"},
+      {"source": "best-practices", "quote": "Run validator → fix errors → repeat"}
+    ],
+    "I3": [
+      {"source": "best-practices", "quote": "Don't include information that will become outdated"},
+      {"source": "best-practices", "quote": "Choose one term and use it throughout the Skill"}
+    ],
+    "I4": [
+      {"source": "best-practices", "quote": "provide input/output pairs"}
+    ],
+    "S1": [
+      {"source": "best-practices", "quote": "Make clear in your instructions whether Claude should"},
+      {"source": "skills", "quote": "The directory containing the skill's `SKILL.md` file"}
+    ],
+    "S2": [
+      {"source": "best-practices", "quote": "handle error conditions rather than deferring to Claude"},
+      {"source": "best-practices", "quote": "voodoo constants"}
+    ],
+    "S3": [
+      {"source": "best-practices", "quote": "List required packages in your `SKILL.md`"},
+      {"source": "overview", "quote": "Skills should only install packages locally"}
+    ],
+    "S4": [
+      {"source": "skills", "quote": "any non-zero exit code counts as a failure"}
+    ],
+    "S5": [
+      {"source": "best-practices", "quote": "always use fully qualified tool names"}
+    ],
+    "X1": [
+      {"source": "enterprise", "quote": "Credentials should use environment variables or secure credential stores"}
+    ],
+    "X2": [
+      {"source": "enterprise", "quote": "Search scripts and instructions for network access patterns"},
+      {"source": "overview", "quote": "Skills that fetch data from external URLs pose particular risk"}
+    ],
+    "X3": [
+      {"source": "enterprise", "quote": "Check for adversarial instructions"},
+      {"source": "enterprise", "quote": "or alter behavior based on specific inputs"}
+    ],
+    "X4": [
+      {"source": "enterprise", "quote": "Paths outside the Skill directory, broad glob patterns, path traversal"}
+    ],
+    "T1": [
+      {"source": "enterprise", "quote": "3–5 representative queries for each Skill"},
+      {"source": "best-practices", "quote": "At least three evaluations created"}
+    ]
+  }
+}
