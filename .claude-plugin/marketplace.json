@@ -4,6 +4,7 @@
     "name": "Seulki Bae",
     "email": "kinchi22@gmail.com"
   },
+  "description": "Personal Claude Code plugins for agentic coding.",
   "plugins": [
     {
       "name": "explain-diff",

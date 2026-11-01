@@ -22,6 +22,19 @@ rate limits and the cache countdown.
 | `wk N% (resets in)` | seven-day rate-limit window (subscription sessions only) | accent, yellow from 20%, red from 50% |
 | `cache 42m` | time since the last main-thread model response, against the cache TTL | accent, yellow under 25% left, red under 10%; seconds in the last minute, `cache cold` once lapsed |
 
+## Installation
+
+```bash
+/plugin install usage-hud --marketplace kinchi22/claude-plugins
+```
+
+On Claude Code older than 2.1.275, add the marketplace first:
+
+```bash
+/plugin marketplace add kinchi22/claude-plugins
+/plugin install usage-hud@kinchi22-claude-plugins
+```
+
 ## Why a mod and not a status line script
 
 A `statusLine` command is re-run only when the session emits an event, so a countdown

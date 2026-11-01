@@ -13,8 +13,9 @@ const GRAY = '#8a8a8a'
 const TTL_MS = { '5m': 5 * 60_000, '1h': 60 * 60_000 } as const
 const TICK_MS = 10_000
 
-// Icons, block bars and the trend line after token-weather
-// (anthropics/claude-code-playground, Apache-2.0). Single-width symbols, not emoji.
+// Icons, block bars and the trend line adapted from token-weather
+// (anthropics/claude-code-playground), Copyright 2026 Anthropic PBC, Apache-2.0.
+// Changed here to single-width symbols, not emoji.
 const HISTORY = 12
 const BARS = '▁▂▃▄▅▆▇█'
 

@@ -2,15 +2,6 @@
   "name": "usage-hud",
   "description": "Context bar, cost, 5h/1w rate limits and a live prompt-cache countdown above the prompt",
   "version": "0.2.0",
-  "category": "productivity",
-  "tags": [
-    "status-line",
-    "usage",
-    "rate-limits",
-    "context-window",
-    "prompt-cache",
-    "mod"
-  ],
   "author": {
     "name": "Seulki Bae",
     "email": "kinchi22@gmail.com"
