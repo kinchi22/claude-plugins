@@ -34,7 +34,14 @@ SNIPPET_RE = re.compile(
 )
 SPAN_RE = re.compile(r'<span class="d-(add|del|ctx)">(.*?)</span>', re.S)
 PRE_RE = re.compile(r"<pre>(.*?)</pre>", re.S)
-URL_RE = re.compile(r"""(?:https?:)?//[a-zA-Z0-9._-]+""")
+# Scheme URLs anywhere, plus protocol-relative URLs only inside src/href/url() where
+# they would be fetched — a bare `//` is also a code comment (`//go:build`, `//nolint`).
+URL_RE = re.compile(
+    r"""https?://[a-zA-Z0-9._-]+"""
+    r"""|(?:src|href)\s*=\s*["']//[a-zA-Z0-9._-]+"""
+    r"""|url\(\s*["']?//[a-zA-Z0-9._-]+"""
+)
+HOST_RE = re.compile(r"//([a-zA-Z0-9._-]+)")
 ELISION = re.compile(r"^\s*(?://\s*)?[.…]{1,3}\s*(?:\(.*\)\s*)?[.…]{0,3}\s*$")
 
 ALLOWED_HOSTS = {"www.w3.org"}  # SVG xmlns, declarative only — never fetched
@@ -110,7 +117,7 @@ def check_escaping(r: Report) -> None:
 def check_offline(r: Report) -> None:
     for m in URL_RE.finditer(r.text):
         url = m.group(0)
-        host = url.split("//", 1)[1]
+        host = HOST_RE.search(url).group(1)
         if host not in ALLOWED_HOSTS:
             r.fail("offline", f"external URL in a self-contained report: {url}")
 

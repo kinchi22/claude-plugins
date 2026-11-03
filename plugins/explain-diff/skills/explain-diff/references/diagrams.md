@@ -1,5 +1,11 @@
 # Inline SVG diagram recipes
 
+## Contents
+- Rules (colour classes, viewBox, a11y, labels, show the delta)
+- Shared defs (arrowhead markers)
+- Recipe 1 — pipeline · Recipe 2 — before/after · Recipe 3 — state machine · Recipe 4 — sequence
+- Layout arithmetic
+
 Every diagram in an explain-diff report is **hand-authored inline SVG**. No Mermaid, no
 CDN, no build step — the report must render from a `file://` URL with the network off and
 survive an Artifact CSP unchanged.

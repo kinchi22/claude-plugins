@@ -326,6 +326,7 @@ ul.tight li { margin-bottom: .3rem; }
       <p>{{CARD_PROSE}}</p>
       {{CARD_DIAGRAM}}
 
+      <!-- OPTIONAL: delete unless step 5 chose a stepper (≥3 steps) -->
       <!-- stepper — CSS only. Radios first, unique `name` per instance, `checked` on #1.
            Rail label count MUST equal step count, in order. Max 6 steps. -->
       <div class="stepper">
@@ -342,6 +343,7 @@ ul.tight li { margin-bottom: .3rem; }
         <div class="stepper-hint">{{STEPPER_HINT}}</div>
       </div>
 
+      <!-- OPTIONAL: delete unless step 5 chose before/after tabs -->
       <!-- before/after — CSS only. Same rules; panels live in .ba-body. Max 3. -->
       <div class="ba">
         <input type="radio" name="{{BA_ID}}" id="{{BA_ID}}-1" checked>

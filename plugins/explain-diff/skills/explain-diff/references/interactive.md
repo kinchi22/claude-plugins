@@ -1,5 +1,12 @@
 # Interactive components
 
+## Contents
+- When an interactive component earns its place
+- Stepper (markup + structural rules)
+- Before / after tabs
+- Code snippets
+- Verifying it actually works (JS disabled)
+
 The template ships the CSS for these. You only emit the markup.
 
 **These components use no JavaScript, and you must not add any.** Embedded viewers — the
@@ -58,7 +65,7 @@ Walks the reader through procedural logic one state at a time.
          two concurrent writers can no longer both succeed.</p>
     </div>
   </div>
-  <div class="stepper-hint">단계를 눌러 이동 · 화살표 키로도 넘길 수 있습니다</div>
+  <div class="stepper-hint">{{STEPPER_HINT — in the report's language}}</div>
 </div>
 ```
 
