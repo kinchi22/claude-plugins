@@ -1,22 +1,22 @@
 ---
 name: comment-gc
-description: Collect the comment garbage that piles up during agentic coding — delete stale, historical, and self-evident comments, compress verbose ones to their point, keep the load-bearing "why" — while changing zero lines of code, proven mechanically. Use whenever comments have accumulated faster than the code they describe, and whenever the user says, in any language, "clean up the comments", "the comments are longer than the code", "remove outdated comments", "this file reads like a changelog", "tidy up these docstrings", or asks to strip leftover narration from earlier edits — even when they name no file, and even when the request arrives as an aside at the end of another task.
+description: >-
+  Removes stale, historical, and self-evident code comments and compresses verbose ones to
+  their point, keeping the load-bearing "why" while changing zero lines of code (verified
+  mechanically). Use when comments have piled up faster than the code they describe, or when
+  the user says, in any language, "clean up the comments", "the comments are longer than the
+  code", "remove outdated comments", "this file reads like a changelog", "tidy up these
+  docstrings", or asks to strip leftover narration from earlier edits, even when no file is
+  named or the request is an aside at the end of another task.
 ---
 
 # Comment GC
 
-Comments accumulate. One session writes `// switched to a Map for O(1) lookup`, the next
-adds `// note: the array version is gone now`, a third explains what the loop does, and
-after a dozen sessions the comments describe the file's history instead of its present.
-Nobody deletes them, because deleting someone else's note feels risky.
+Delete comments that stopped being true or never earned their place, compress the rest to
+their point, and touch no code.
 
-This skill does the collecting: **delete what stopped being true or never earned its place,
-compress the rest to its point, touch no code.**
-
-The hard constraint is the whole value proposition: **the code must come out identical once
-comments and whitespace are removed** — not "mostly unchanged", identical, and proven with
-`scripts/code_guard.py` before you report. A comment cleanup that quietly renames a variable
-is a cleanup nobody will ever run again.
+**Hard constraint:** once comments and whitespace are removed, the code must be identical,
+proven with `scripts/code_guard.py` before you report.
 
 ## Arguments
 
@@ -47,7 +47,7 @@ skill is manufacturing work to look useful.
 ## 2 — Snapshot before you touch anything
 
 ```bash
-python3 <skill>/scripts/code_guard.py save <scratch>/comment-gc-snapshot <files...>
+python3 "${CLAUDE_SKILL_DIR}/scripts/code_guard.py" save "${TMPDIR:-/tmp}/comment-gc-snapshot" <files...>
 ```
 
 This is the before-image that step 5 compares against and, when something goes wrong,
@@ -69,8 +69,9 @@ fact about the code underneath it, and you cannot tell them apart from the comme
 
 **The second question — where else does this information live?** Anything already carried by
 the code, the types, the tests, `git log`, an ADR, or the issue tracker is a duplicate, and
-duplicates are exactly what goes stale. This project keeps architectural rationale in ADRs
-and other docs, so a comment re-telling a design decision is not the only copy.
+duplicates are exactly what goes stale. If the repo has ADRs or design docs that already
+state a comment's rationale, the comment is a duplicate. If you can't find another copy,
+treat the rationale as load-bearing.
 
 ### Delete
 
@@ -213,18 +214,18 @@ One file at a time, comments only.
 ## 5 — Prove the code is untouched
 
 ```bash
-python3 <skill>/scripts/code_guard.py check <scratch>/comment-gc-snapshot
+python3 "${CLAUDE_SKILL_DIR}/scripts/code_guard.py" check "${TMPDIR:-/tmp}/comment-gc-snapshot"
 ```
 
 The guard strips comments and collapses whitespace outside string literals, then compares
-what is left; Python goes through the AST, so docstring edits are allowed while every other
+what is left; Python goes through the AST, so docstrings may be edited or deleted while every other
 literal is still compared exactly.
 
 | Verdict | What it means | What to do |
 |---|---|---|
 | `OK` | Code identical | Nothing |
 | `LIMITED` | Verified, but the language is only partly understood | Read that file's diff yourself |
-| `CHANGED` | Code differs | `code_guard.py restore <snap> <file>`, then redo the file |
+| `CHANGED` | Code differs | `python3 "${CLAUDE_SKILL_DIR}/scripts/code_guard.py" restore "${TMPDIR:-/tmp}/comment-gc-snapshot" <file>`, then redo the file |
 | `SKIPPED` | Language unknown to the guard | Either revert the file or verify by hand and say so in the report |
 
 Never report a `CHANGED` file as done, and never explain it away — the mechanical check is

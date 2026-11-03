@@ -7,8 +7,8 @@
     code_guard.py check --base HEAD [<file>...]         # if the tree was clean
 
 `check` strips comments and collapses whitespace outside string literals, then
-compares what is left. Python goes through `ast` instead, so docstring edits are
-allowed while every other string literal is still compared exactly.
+compares what is left. Python goes through `ast` instead, so docstrings may be
+edited or deleted while every other string literal is still compared exactly.
 
 Per-file verdicts:
 
@@ -243,7 +243,7 @@ def scan_markup(src):
 
 
 def python_scan(src):
-    """AST shape with docstrings blanked, plus the lines holding comments or docstrings."""
+    """AST shape with docstrings removed, plus the lines holding comments or docstrings."""
     tree = ast.parse(src)
     lines = set()
     for node in ast.walk(tree):
@@ -256,8 +256,9 @@ def python_scan(src):
         if isinstance(value, ast.Constant) and isinstance(value.value, str):
             for ln in range(value.lineno, (value.end_lineno or value.lineno) + 1):
                 lines.add(ln)
-            value.value = "<docstring>"
-            value.kind = None
+            # Drop the node rather than blank it, so a deleted docstring compares
+            # equal to an edited one.
+            node.body = body[1:]
     try:
         for tok in tokenize.generate_tokens(io.StringIO(src).readline):
             if tok.type == tokenize.COMMENT:

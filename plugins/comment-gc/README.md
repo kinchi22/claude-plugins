@@ -32,14 +32,14 @@ than the code", "strip the outdated comments from this file".
 | **Never touches** | Tool directives (`eslint-disable`, `# type: ignore`, `//go:build`, …), license headers, generated-file markers, and any code at all |
 | **Asks about** | The handful of judgment calls a maintainer could reasonably disagree with — kept in place while it asks |
 
-Architectural rationale is assumed to live in ADRs and other docs, not in comments, so a
-comment re-telling a design decision is not treated as the only copy.
+A comment re-telling a design decision is treated as a duplicate only when the repo's ADRs
+or design docs already state it; otherwise it is kept as load-bearing.
 
 ## The code-unchanged guarantee
 
 `scripts/code_guard.py` snapshots every file before editing, then proves afterwards that the
 code is identical once comments and whitespace are removed. Python is compared through its
-AST — docstring edits are allowed, every other literal is compared exactly; HTML, Vue and
+AST — docstrings may be edited or deleted, every other literal is compared exactly; HTML, Vue and
 Svelte are split so that `<script>` and `<style>` blocks are read as JavaScript and CSS.
 
 ```bash
