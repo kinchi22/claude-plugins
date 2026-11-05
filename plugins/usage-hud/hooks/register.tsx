@@ -183,7 +183,7 @@ export const register: Register = (on, options) => {
     const delta = trend(history)
     const turnsText = bars ? `  last turns ${bars}${delta ? `  ${delta}` : ''}` : ''
     const fixed = icon.length + label.length + turnsText.length + 1
-    const width = Math.max(10, Math.min(50, e.props.bodyColumns - fixed))
+    const width = Math.max(5, Math.min(25, Math.floor((e.props.bodyColumns - fixed) / 2)))
     const { filled, empty } = bar(pct, width)
 
     // Line 1: context and turn history; line 2, indented under the bar: cost, limits, cache.
