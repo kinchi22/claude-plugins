@@ -67,18 +67,11 @@ export const formatRemaining = (ms: number) => {
   return h === 0 ? `${d}d` : `${d}d${h}h`
 }
 
-// Half-block bar: each cell is 2 points, ▄ marks an odd point.
+// One glyph for both parts, told apart only by color: block characters left gaps
+// and mismatched heights in the desktop app's font.
 export const bar = (pct: number, width: number) => {
-  let filled = ''
-  let empty = ''
-  for (let i = 0; i < width; i++) {
-    const progress = pct - (i * 100) / width
-    const step = 100 / width
-    if (progress >= step) filled += '█'
-    else if (progress >= step / 2) filled += '▄'
-    else empty += '░'
-  }
-  return { filled, empty }
+  const cells = Math.max(0, Math.min(width, Math.round((pct / 100) * width)))
+  return { filled: '━'.repeat(cells), empty: '━'.repeat(width - cells) }
 }
 
 export const cacheLabel = (lastAt: number | null, at: number, ttlMs: number) => {
@@ -183,7 +176,7 @@ export const register: Register = (on, options) => {
     const delta = trend(history)
     const turnsText = bars ? `  last turns ${bars}${delta ? `  ${delta}` : ''}` : ''
     const fixed = icon.length + label.length + turnsText.length + 1
-    const width = Math.max(10, Math.min(50, e.props.bodyColumns - fixed))
+    const width = Math.max(5, Math.min(25, Math.floor((e.props.bodyColumns - fixed) / 2)))
     const { filled, empty } = bar(pct, width)
 
     // Line 1: context and turn history; line 2, indented under the bar: cost, limits, cache.

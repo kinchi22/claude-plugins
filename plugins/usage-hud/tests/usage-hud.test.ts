@@ -41,10 +41,15 @@ describe('formatRemaining', () => {
 })
 
 describe('bar', () => {
-  test('fills proportionally with a half block', () => {
+  test('fills proportionally, rounding to the nearest cell', () => {
     const { filled, empty } = bar(23, 50)
-    expect(filled).toBe('███████████▄')
-    expect(filled.length + empty.length).toBe(50)
+    expect(filled).toBe('━'.repeat(12))
+    expect(empty).toBe('━'.repeat(38))
+  })
+
+  test('clamps out-of-range percentages', () => {
+    expect(bar(-5, 10)).toEqual({ filled: '', empty: '━'.repeat(10) })
+    expect(bar(140, 10)).toEqual({ filled: '━'.repeat(10), empty: '' })
   })
 })
 

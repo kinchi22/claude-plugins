@@ -5,7 +5,7 @@ shows — plus the one thing a status line can't keep current: **how long the pr
 cache stays warm**.
 
 ```
-☁  ███████████▄░░░░░░░░░░  23% of 1000k tokens  last turns ▁▂█  ▲ +98.3k last turn
+☁  ━━━━━━━━━━━━━━━━━━━━━━━━━  23% of 1000k tokens  last turns ▁▂█  ▲ +98.3k last turn
    💸 $1.50 | 5h 12% (2h3m) | wk 41% (3d4h) | cache 42m
 ```
 
