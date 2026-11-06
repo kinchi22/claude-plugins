@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'claude-code/testing'
 
-import { bar, cacheLabel, chart, formatRemaining, trend, weatherIcon } from '../hooks/register'
+import { bar, cacheLabel, formatRemaining } from '../hooks/register'
 
 const HOUR = 60 * 60_000
 const FIVE_MIN = 5 * 60_000
@@ -50,29 +50,5 @@ describe('bar', () => {
   test('clamps out-of-range percentages', () => {
     expect(bar(-5, 10)).toEqual({ filled: '', empty: '━'.repeat(10) })
     expect(bar(140, 10)).toEqual({ filled: '━'.repeat(10), empty: '' })
-  })
-})
-
-describe('weatherIcon', () => {
-  test('follows the bar color thresholds', () => {
-    expect(weatherIcon(0)).toBe('☀')
-    expect(weatherIcon(19)).toBe('☀')
-    expect(weatherIcon(20)).toBe('☁')
-    expect(weatherIcon(49)).toBe('☁')
-    expect(weatherIcon(50)).toBe('☂')
-    expect(weatherIcon(100)).toBe('☂')
-  })
-})
-
-describe('turn history', () => {
-  test('charts turns relative to the busiest one', () => {
-    expect(chart([10_000, 30_000, 130_000])).toBe('▁▂█')
-  })
-
-  test('reports the last turn delta', () => {
-    expect(trend([36_000])).toBe('')
-    expect(trend([36_000, 134_300])).toBe('▲ +98.3k last turn')
-    expect(trend([134_300, 36_000])).toBe('▼ 98.3k last turn')
-    expect(trend([5, 5])).toBe('steady')
   })
 })

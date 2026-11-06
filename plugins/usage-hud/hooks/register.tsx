@@ -13,45 +13,11 @@ const GRAY = '#8a8a8a'
 const TTL_MS = { '5m': 5 * 60_000, '1h': 60 * 60_000 } as const
 const TICK_MS = 10_000
 
-// Icons, block bars and the trend line adapted from token-weather
-// (anthropics/claude-code-playground), Copyright 2026 Anthropic PBC, Apache-2.0.
-// Changed here to single-width symbols, not emoji.
-const HISTORY = 12
-const BARS = '▁▂▃▄▅▆▇█'
-
 const usage = atom({ plugin: 'usage-hud', key: 'usage' } as const, null)
 const lastResponseAt = atom({ plugin: 'usage-hud', key: 'lastResponseAt' } as const, null)
 const now = atom({ plugin: 'usage-hud', key: 'now' } as const, 0)
-const turns = atom({ plugin: 'usage-hud', key: 'turns' } as const, [])
 
 const levelColor = (pct: number) => (pct >= 50 ? RED : pct >= 20 ? YELLOW : ACCENT)
-
-// Same thresholds as levelColor, so the icon always matches the bar's color.
-export const weatherIcon = (pct: number) => (pct >= 50 ? '☂' : pct >= 20 ? '☁' : '☀')
-
-export const short = (n: number) => {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1)}M`
-  if (n >= 1_000) return `${(n / 1_000).toFixed(n % 1_000 === 0 ? 0 : 1)}k`
-  return String(n)
-}
-
-// Bars scale to the busiest turn shown, so growth shows at any fill level.
-export const chart = (tokens: readonly number[]) => {
-  const top = Math.max(...tokens, 1)
-  return tokens
-    .map(t => BARS[Math.min(BARS.length - 1, Math.floor((t / top) * (BARS.length - 1)))])
-    .join('')
-}
-
-export const trend = (tokens: readonly number[]) => {
-  const last = tokens[tokens.length - 1]
-  const prev = tokens[tokens.length - 2]
-  if (last === undefined || prev === undefined) return ''
-  const delta = last - prev
-  if (delta > 0) return `▲ +${short(delta)} last turn`
-  if (delta < 0) return `▼ ${short(-delta)} last turn`
-  return 'steady'
-}
 
 export const formatRemaining = (ms: number) => {
   const s = Math.floor(ms / 1000)
@@ -113,20 +79,6 @@ export const register: Register = (on, options) => {
     return result
   })
 
-  // One reading per main-loop turn; a reload keeps them ($.state), a /clear starts over.
-  on('turn.complete', async ($, e, next) => {
-    const result = await next(e)
-    if (e.agentId !== undefined) return result
-    const tokens = (await $.session.usage()).context.tokens ?? 0
-    if (tokens > 0) await update($, turns, list => [...list, tokens].slice(-HISTORY))
-    return result
-  })
-
-  on('session.end', async ($, e, next) => {
-    if (e.reason === 'clear') await update($, turns, () => [])
-    return next(e)
-  })
-
   on('session.measure', async ($, e, next) => {
     const current = toUsage(e)
     await update($, usage, () => current)
@@ -150,7 +102,6 @@ export const register: Register = (on, options) => {
 
     const at = await read($, now)
     const lastAt = await read($, lastResponseAt)
-    const history = await read($, turns)
     const { Box, Text } = $.ui.resolve(e)
 
     const window = u.context.window
@@ -170,33 +121,20 @@ export const register: Register = (on, options) => {
     if (week) parts.push(week)
     parts.push(cacheLabel(lastAt, at, ttlMs))
 
-    const icon = `${weatherIcon(pct)}  `
     const label = ` ${hasFill ? '' : '~'}${pct}% of ${Math.round(window / 1000)}k tokens`
-    const bars = chart(history)
-    const delta = trend(history)
-    const turnsText = bars ? `  last turns ${bars}${delta ? `  ${delta}` : ''}` : ''
-    const fixed = icon.length + label.length + turnsText.length + 1
+    const fixed = label.length + 1
     const width = Math.max(5, Math.min(25, Math.floor((e.props.bodyColumns - fixed) / 2)))
     const { filled, empty } = bar(pct, width)
 
-    // Line 1: context and turn history; line 2, indented under the bar: cost, limits, cache.
+    // Line 1: context; line 2: cost, limits, cache.
     return (
       <Box flexDirection="column">
         <Text wrap="truncate-end">
-          <Text color={ctxColor}>{icon}</Text>
           <Text color={ctxColor}>{filled}</Text>
           <Text color={EMPTY}>{empty}</Text>
           <Text color={ctxColor}>{label}</Text>
-          {bars ? (
-            <Text>
-              <Text color={GRAY}>{'  last turns '}</Text>
-              <Text color={ctxColor}>{bars}</Text>
-              {delta ? <Text color={GRAY}>{`  ${delta}`}</Text> : null}
-            </Text>
-          ) : null}
         </Text>
         <Text wrap="truncate-end">
-          {' '.repeat(icon.length)}
           {parts.map((p, i) => (
             <Text key={p.text}>
               {i > 0 ? sep : null}
