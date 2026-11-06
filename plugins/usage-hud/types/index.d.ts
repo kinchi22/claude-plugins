@@ -12,7 +12,6 @@ declare module 'claude-code' {
       usage: Usage | null
       lastResponseAt: number | null
       now: number
-      turns: number[]
     }
   }
 }

@@ -23,9 +23,7 @@ for (const surface of ['terminal', 'desktop'] as const) {
     })
     const ui = await $.ui.mount({ plugin: 'usage-hud', surface, component: 'AbovePrompt', props: PROPS })
 
-    expect(await ui.find({ text: '☁ ' })).toBeDefined()
     expect(await ui.find({ text: '23% of 1000k tokens' })).toBeDefined()
-    expect(await ui.find({ text: 'last turns' })).toBeUndefined()
     expect(await ui.find({ text: '5h 12%' })).toBeDefined()
     expect(await ui.find({ text: 'wk 41%' })).toBeDefined()
     expect(await ui.find({ text: '💸 $1.50' })).toBeDefined()

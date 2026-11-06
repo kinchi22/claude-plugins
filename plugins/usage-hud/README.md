@@ -5,18 +5,16 @@ shows — plus the one thing a status line can't keep current: **how long the pr
 cache stays warm**.
 
 ```
-☁  ━━━━━━━━━━━━━━━━━━━━━━━━━  23% of 1000k tokens  last turns ▁▂█  ▲ +98.3k last turn
-   💸 $1.50 | 5h 12% (2h3m) | wk 41% (3d4h) | cache 42m
+━━━━━━━━━━━━━━━━━━━━━━━━━  23% of 1000k tokens
+💸 $1.50 | 5h 12% (2h3m) | wk 41% (3d4h) | cache 42m
 ```
 
-The first line shows the context window and turn history; the second shows cost,
+The first line shows the context window; the second shows cost,
 rate limits and the cache countdown.
 
 | Segment | Source | Colors |
 |---------|--------|--------|
-| Weather icon `☀` / `☁` / `☂` | context fill: under 20%, 20–49%, 50% and up | same color as the bar |
 | Context bar and `N% of Wk tokens` | live context window (`~` before the first response) | accent, yellow from 20%, red from 50% |
-| `last turns ▁▂█  ▲ +98.3k last turn` | context tokens after each of the last 12 main-loop turns, bars relative to the busiest; the delta of the last turn (`▼` when it shrank, `steady` when unchanged) | bars in the bar's color, labels gray |
 | `💸 $x.xx` | session cost, as `/cost` totals it | gray |
 | `5h N% (resets in)` | five-hour rate-limit window (subscription sessions only) | accent, yellow from 20%, red from 50% |
 | `wk N% (resets in)` | seven-day rate-limit window (subscription sessions only) | accent, yellow from 20%, red from 50% |
@@ -46,8 +44,6 @@ clock every 10 seconds, so the band keeps counting down while the session sits i
 Subagent requests are ignored: they cache a different prefix, so they don't keep the
 main conversation's cache warm.
 
-The turn history survives a mod reload and starts over on `/clear`.
-
 ## Options
 
 | Option | Values | Default |
@@ -72,9 +68,3 @@ claude --plugin-dir plugins/usage-hud     # run a session with the working copy
 
 The engine writes the API typings into `.claude-plugin/types/` when it loads the
 plugin (git-ignored); after that, `tsc -p plugins/usage-hud` type-checks it.
-
-## Credits
-
-The weather icons, the block-character turn chart and the `last turn` trend are adapted
-from the [token-weather](https://github.com/anthropics/claude-code-playground/tree/main/claude-code/mods/token-weather)
-mod in anthropics/claude-code-playground (Copyright 2026 Anthropic PBC, Apache-2.0).
